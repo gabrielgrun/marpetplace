@@ -1,6 +1,6 @@
 package marpetplace.api.repository;
 
-import marpetplace.api.entity.Usuario;
+import marpetplace.api.domain.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

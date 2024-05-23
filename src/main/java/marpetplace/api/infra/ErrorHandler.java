@@ -1,8 +1,8 @@
 package marpetplace.api.infra;
 
 import jakarta.persistence.EntityNotFoundException;
-import marpetplace.api.dto.response.ErrorResponse;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
+import marpetplace.api.exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -10,13 +10,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler({EntityNotFoundException.class, RecordNotFoundException.class})
     public ResponseEntity handleError404() {
         return ResponseEntity.notFound().build();
     }
@@ -29,8 +26,7 @@ public class ErrorHandler {
 
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
     public ResponseEntity handleEmailAlreadyRegistered(EmailAlreadyRegisteredException ex){
-        ErrorResponse errorResponse = new ErrorResponse("", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(List.of(errorResponse));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     private record ErrorDataValidation(String field, String message) {

@@ -1,12 +1,12 @@
 package marpetplace.api.response;
 
-import marpetplace.api.entity.Usuario;
+import marpetplace.api.domain.entity.Usuario;
 
 import java.util.UUID;
 
-public record UsuarioDetailedResponse(UUID id, String nome, String email, String senha) {
+public record UsuarioDetailedResponse(UUID id, String nome, String email) {
 
     public UsuarioDetailedResponse(Usuario usuario){
-        this(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha());
+        this(usuario.getId(), usuario.getNome(), usuario.getEmail());
     }
 }

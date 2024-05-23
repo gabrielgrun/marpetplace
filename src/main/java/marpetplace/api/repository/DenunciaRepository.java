@@ -1,6 +1,6 @@
 package marpetplace.api.repository;
 
-import marpetplace.api.entity.Denuncia;
+import marpetplace.api.domain.entity.Denuncia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

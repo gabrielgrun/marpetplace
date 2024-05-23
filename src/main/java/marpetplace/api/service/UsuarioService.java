@@ -1,12 +1,16 @@
 package marpetplace.api.service;
 
 
-import marpetplace.api.entity.Usuario;
+import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
+import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsuarioService {
@@ -27,6 +31,15 @@ public class UsuarioService {
         usuario.setSenha(encryptedPassword);
 
         return usuarioRepository.save(usuario);
+    }
+
+    public Usuario getById(UUID id){
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if(usuario.isEmpty()){
+            throw new RecordNotFoundException();
+        }
+
+        return usuario.get();
     }
 
     private String getEncryptedPassword(String password) {

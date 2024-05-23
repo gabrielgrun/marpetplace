@@ -1,4 +1,4 @@
-package marpetplace.api.entity;
+package marpetplace.api.domain.entity;
 
 
 import jakarta.persistence.*;
