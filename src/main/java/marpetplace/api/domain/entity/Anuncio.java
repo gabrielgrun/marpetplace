@@ -1,19 +1,26 @@
 package marpetplace.api.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import marpetplace.api.domain.Porte;
 import marpetplace.api.domain.Sexo;
-import marpetplace.api.domain.Status;
+import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.Tipo;
 import marpetplace.api.dto.request.AnuncioRequest;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Anuncio {
 
     @Id
@@ -27,7 +34,6 @@ public class Anuncio {
     @Column(name = "descricao", columnDefinition = "text")
     private String descricao;
 
-    @Lob
     @Column(name = "foto")
     private byte[] foto;
 
@@ -50,20 +56,26 @@ public class Anuncio {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private Status status;
+    private AnuncioStatus anuncioStatus;
 
     @Column(name = "tipo", length = 20)
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
+    @Column(name = "data_criacao")
+    @CreationTimestamp
+    private LocalDateTime dataCriacao;
+
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+
+
     public Anuncio(AnuncioRequest anuncioRequest) {
         this.nome = anuncioRequest.nome();
         this.descricao = anuncioRequest.descricao();
-        this.foto = anuncioRequest.foto();
+        this.foto = anuncioRequest.foto().getBytes(StandardCharsets.UTF_8);
         this.porte = anuncioRequest.porte();
         this.sexo = anuncioRequest.sexo();
         this.castrado = anuncioRequest.castrado();

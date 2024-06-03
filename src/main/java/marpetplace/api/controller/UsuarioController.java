@@ -1,9 +1,9 @@
 package marpetplace.api.controller;
 
 import jakarta.validation.Valid;
-import marpetplace.api.dto.request.UsuarioRequest;
 import marpetplace.api.domain.entity.Usuario;
-import marpetplace.api.response.UsuarioDetailedResponse;
+import marpetplace.api.dto.request.UsuarioRequest;
+import marpetplace.api.dto.response.UsuarioDetailedResponse;
 import marpetplace.api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

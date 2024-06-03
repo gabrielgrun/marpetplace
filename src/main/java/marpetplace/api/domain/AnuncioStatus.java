@@ -1,6 +1,6 @@
 package marpetplace.api.domain;
 
-public enum Status {
+public enum AnuncioStatus {
     ATIVO,
     OCULTADO,
     DENUNCIADO,

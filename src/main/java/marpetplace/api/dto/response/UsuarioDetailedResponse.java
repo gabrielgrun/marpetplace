@@ -1,4 +1,4 @@
-package marpetplace.api.response;
+package marpetplace.api.dto.response;
 
 import marpetplace.api.domain.entity.Usuario;
 

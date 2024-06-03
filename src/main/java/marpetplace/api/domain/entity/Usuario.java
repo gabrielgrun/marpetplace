@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import marpetplace.api.domain.UsuarioStatus;
 import marpetplace.api.dto.request.UsuarioRequest;
 
 import java.util.UUID;
@@ -30,6 +31,10 @@ public class Usuario {
 
     @Column(name = "senha", length = 100)
     private String senha;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private UsuarioStatus status;
 
     public Usuario(UsuarioRequest usuarioRequest){
         this.nome = usuarioRequest.nome();

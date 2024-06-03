@@ -22,4 +22,8 @@ public class Denuncia {
     @ManyToOne
     @JoinColumn(name = "id_anuncio")
     private Anuncio anuncio;
+
+    @OneToOne
+    @JoinColumn(name = "id_denunciante")
+    private Usuario usuario;
 }

@@ -8,7 +8,7 @@ import marpetplace.api.domain.Tipo;
 
 import java.util.UUID;
 
-public record AnuncioRequest(@NotBlank String nome, String descricao, @NotNull byte[] foto, @NotNull Porte porte,
+public record AnuncioRequest(@NotBlank String nome, String descricao, String foto, @NotNull Porte porte,
                              @NotNull Sexo sexo, boolean castrado, boolean vacinado, @NotBlank String contato,
-                             @NotNull Tipo tipo, @NotBlank UUID usuarioId) {
+                             @NotNull Tipo tipo, @NotNull UUID usuarioId) {
 }
