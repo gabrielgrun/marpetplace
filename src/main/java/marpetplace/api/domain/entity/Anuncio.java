@@ -56,7 +56,7 @@ public class Anuncio {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
-    private AnuncioStatus anuncioStatus;
+    private AnuncioStatus status;
 
     @Column(name = "tipo", length = 20)
     @Enumerated(EnumType.STRING)
@@ -69,8 +69,6 @@ public class Anuncio {
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-
-
 
     public Anuncio(AnuncioRequest anuncioRequest) {
         this.nome = anuncioRequest.nome();

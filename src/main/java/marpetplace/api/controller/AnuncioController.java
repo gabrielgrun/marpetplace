@@ -2,9 +2,13 @@ package marpetplace.api.controller;
 
 import jakarta.validation.Valid;
 import marpetplace.api.domain.entity.Anuncio;
+import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.dto.request.AnuncioRequest;
+import marpetplace.api.dto.request.DenunciaRequest;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
+import marpetplace.api.dto.response.DenunciaDetailedResponse;
 import marpetplace.api.service.AnuncioService;
+import marpetplace.api.service.DenunciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +24,8 @@ public class AnuncioController {
     @Autowired
     AnuncioService anuncioService;
 
-    @PostMapping
-    public ResponseEntity register(@RequestBody @Valid AnuncioRequest anuncioRequest, UriComponentsBuilder uriBuilder){
-        Anuncio anuncio = anuncioService.register(anuncioRequest);
-        var uri = uriBuilder.path("/anuncios/{id}").buildAndExpand(anuncio.getId()).toUri();
-        return ResponseEntity.created(uri).body(new AnuncioDetailedResponse(anuncio));
-    }
+    @Autowired
+    DenunciaService denunciaService;
 
     @GetMapping("/{id}")
     public ResponseEntity getById(@PathVariable UUID id){
@@ -67,5 +67,13 @@ public class AnuncioController {
     public ResponseEntity delete(@PathVariable UUID id){
         anuncioService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{idAnuncio}/denuncias")
+    public ResponseEntity denunciaCreate(@PathVariable UUID idAnuncio,
+                                         @RequestBody @Valid DenunciaRequest denunciaRequest, UriComponentsBuilder uriBuilder){
+        Denuncia denuncia = denunciaService.register(idAnuncio, denunciaRequest);
+        var uri = uriBuilder.path("/{idAnuncio}/denuncias/{id}").buildAndExpand(idAnuncio, denuncia.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DenunciaDetailedResponse(denuncia));
     }
 }

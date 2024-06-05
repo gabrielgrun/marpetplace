@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AnuncioService {
-    Anuncio register(AnuncioRequest anuncioRequest);
+    Anuncio register(UUID idUsuario, AnuncioRequest anuncioRequest);
     Anuncio getById(UUID id);
     List<AnuncioDetailedResponse> getActives();
     Anuncio update(UUID id, AnuncioRequest anuncioRequest);
@@ -16,4 +16,5 @@ public interface AnuncioService {
     Anuncio show(UUID id);
     void delete(UUID id);
     List<AnuncioDetailedResponse> getAll();
+    List<AnuncioDetailedResponse> getByUsuario(UUID idUsuario);
 }

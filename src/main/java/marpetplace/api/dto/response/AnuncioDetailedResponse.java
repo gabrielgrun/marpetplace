@@ -25,7 +25,7 @@ public record AnuncioDetailedResponse(UUID id, String nome, String descricao, by
         anuncio.isVacinado(),
         anuncio.getContato(),
         anuncio.getTipo(),
-        anuncio.getAnuncioStatus(),
+        anuncio.getStatus(),
         anuncio.getDataCriacao(),
         new UsuarioDetailedResponse(anuncio.getUsuario()));
     }

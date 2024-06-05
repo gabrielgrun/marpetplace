@@ -3,6 +3,7 @@ package marpetplace.api.domain.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import marpetplace.api.dto.request.DenunciaRequest;
 
 import java.util.UUID;
 
@@ -26,4 +27,8 @@ public class Denuncia {
     @OneToOne
     @JoinColumn(name = "id_denunciante")
     private Usuario usuario;
+
+    public Denuncia(DenunciaRequest denunciaRequest){
+        this.motivo = denunciaRequest.motivo();
+    }
 }

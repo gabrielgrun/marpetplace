@@ -11,10 +11,7 @@ import marpetplace.api.dto.response.AnuncioDetailedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AnuncioServiceImpl implements AnuncioService {
@@ -29,16 +26,16 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
-    public Anuncio register(AnuncioRequest anuncioRequest) {
+    public Anuncio register(UUID idUsuario, AnuncioRequest anuncioRequest) {
         Anuncio anuncio = new Anuncio(anuncioRequest);
 
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(anuncioRequest.usuarioId());
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
         if(usuarioOptional.isEmpty()){
             throw new RecordNotFoundException();
         }
 
         anuncio.setUsuario(usuarioOptional.get());
-        anuncio.setAnuncioStatus(AnuncioStatus.ATIVO);
+        anuncio.setStatus(AnuncioStatus.ATIVO);
 
         return anuncioRepository.save(anuncio);
     }
@@ -69,7 +66,7 @@ public class AnuncioServiceImpl implements AnuncioService {
         Anuncio anuncioFromRequest = new Anuncio(anuncioRequest);
         Anuncio anuncioFromDb = getById(id);
         anuncioFromRequest.setId(id);
-        anuncioFromRequest.setAnuncioStatus(anuncioFromDb.getAnuncioStatus());
+        anuncioFromRequest.setStatus(anuncioFromDb.getStatus());
         anuncioFromRequest.setUsuario(anuncioFromDb.getUsuario());
         anuncioFromRequest.setDataCriacao(anuncioFromDb.getDataCriacao());
         return anuncioRepository.save(anuncioFromRequest);
@@ -78,10 +75,10 @@ public class AnuncioServiceImpl implements AnuncioService {
     @Override
     public Anuncio hide(UUID id) {
         Anuncio anuncio = getById(id);
-        if(anuncio.getAnuncioStatus().equals(AnuncioStatus.EXCLUIDO)){
+        if(anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)){
             throw new RecordNotFoundException();
         }
-        anuncio.setAnuncioStatus(AnuncioStatus.OCULTADO);
+        anuncio.setStatus(AnuncioStatus.OCULTADO);
         return anuncioRepository.save(anuncio);
     }
 
@@ -89,17 +86,17 @@ public class AnuncioServiceImpl implements AnuncioService {
     public Anuncio show(UUID id) {
         Anuncio anuncio = getById(id);
         //TODO verificar o nome do método verifyIfIsExcluded
-        if(anuncio.getAnuncioStatus().equals(AnuncioStatus.EXCLUIDO)){
+        if(anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)){
             throw new RecordNotFoundException();
         }
-        anuncio.setAnuncioStatus(AnuncioStatus.ATIVO);
+        anuncio.setStatus(AnuncioStatus.ATIVO);
         return anuncioRepository.save(anuncio);
     }
 
     @Override
     public void delete(UUID id) {
         Anuncio anuncio = getById(id);
-        anuncio.setAnuncioStatus(AnuncioStatus.EXCLUIDO);
+        anuncio.setStatus(AnuncioStatus.EXCLUIDO);
         anuncioRepository.save(anuncio);
     }
 
@@ -107,6 +104,24 @@ public class AnuncioServiceImpl implements AnuncioService {
     public List<AnuncioDetailedResponse> getAll() {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         List<Anuncio> anuncios = anuncioRepository.findAllByOrderByDataCriacaoDesc();
+        anuncios.forEach(anuncio -> {
+            anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
+        });
+
+        return anunciosResponse;
+    }
+
+    @Override
+    public List<AnuncioDetailedResponse> getByUsuario(UUID idUsuario) {
+        List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
+
+        if(usuarioOptional.isEmpty()){
+            throw new RecordNotFoundException();
+        }
+
+        List<Anuncio> anuncios = anuncioRepository.findByUsuario(usuarioOptional.get());
+        anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
             anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
         });
