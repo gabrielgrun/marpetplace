@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface UsuarioService {
     Usuario register(Usuario usuario);
     Usuario getById(UUID id);
+    Usuario activate(UUID id);
+    Usuario deactivate(UUID id);
 }

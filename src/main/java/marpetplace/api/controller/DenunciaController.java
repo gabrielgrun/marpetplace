@@ -1,24 +1,34 @@
 package marpetplace.api.controller;
 
+import jakarta.validation.Valid;
+import marpetplace.api.domain.entity.Denuncia;
+import marpetplace.api.dto.request.DenunciaRequest;
+import marpetplace.api.dto.response.DenunciaDetailedResponse;
 import marpetplace.api.service.DenunciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/denuncias")
+@RequestMapping("/anuncios/{idAnuncio}/denuncias")
 public class DenunciaController {
 
     @Autowired
     DenunciaService denunciaService;
 
-    @DeleteMapping
-    public ResponseEntity delete(@PathVariable UUID id){
+    @PostMapping
+    public ResponseEntity denunciaCreate(@PathVariable UUID idAnuncio,
+                                         @RequestBody @Valid DenunciaRequest denunciaRequest, UriComponentsBuilder uriBuilder){
+        Denuncia denuncia = denunciaService.register(idAnuncio, denunciaRequest);
+        var uri = uriBuilder.path("/{idAnuncio}/denuncias/{id}").buildAndExpand(idAnuncio, denuncia.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DenunciaDetailedResponse(denuncia));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable UUID idAnuncio, @PathVariable UUID id){
         denunciaService.delete(id);
         return ResponseEntity.noContent().build();
     }

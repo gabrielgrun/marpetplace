@@ -63,17 +63,15 @@ public class AnuncioController {
         return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
     }
 
+    @PatchMapping("/{id}/denunciar")
+    public ResponseEntity report(@PathVariable UUID id){
+        Anuncio anuncio = anuncioService.report(id);
+        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable UUID id){
         anuncioService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{idAnuncio}/denuncias")
-    public ResponseEntity denunciaCreate(@PathVariable UUID idAnuncio,
-                                         @RequestBody @Valid DenunciaRequest denunciaRequest, UriComponentsBuilder uriBuilder){
-        Denuncia denuncia = denunciaService.register(idAnuncio, denunciaRequest);
-        var uri = uriBuilder.path("/{idAnuncio}/denuncias/{id}").buildAndExpand(idAnuncio, denuncia.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DenunciaDetailedResponse(denuncia));
     }
 }

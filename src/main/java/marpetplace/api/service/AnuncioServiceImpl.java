@@ -74,30 +74,24 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     @Override
     public Anuncio hide(UUID id) {
-        Anuncio anuncio = getById(id);
-        if(anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)){
-            throw new RecordNotFoundException();
-        }
-        anuncio.setStatus(AnuncioStatus.OCULTADO);
-        return anuncioRepository.save(anuncio);
+        return changeStatus(id, AnuncioStatus.OCULTADO);
     }
 
     @Override
     public Anuncio show(UUID id) {
-        Anuncio anuncio = getById(id);
-        //TODO verificar o nome do método verifyIfIsExcluded
-        if(anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)){
-            throw new RecordNotFoundException();
-        }
-        anuncio.setStatus(AnuncioStatus.ATIVO);
-        return anuncioRepository.save(anuncio);
+        return changeStatus(id, AnuncioStatus.ATIVO);
     }
 
     @Override
+    public Anuncio report(UUID id) {
+        //TODO: enviar e-mail pro dono do anúncio
+        return changeStatus(id, AnuncioStatus.DENUNCIADO);
+    }
+
+
+    @Override
     public void delete(UUID id) {
-        Anuncio anuncio = getById(id);
-        anuncio.setStatus(AnuncioStatus.EXCLUIDO);
-        anuncioRepository.save(anuncio);
+        changeStatus(id, AnuncioStatus.EXCLUIDO);
     }
 
     @Override
@@ -127,5 +121,33 @@ public class AnuncioServiceImpl implements AnuncioService {
         });
 
         return anunciosResponse;
+    }
+
+    @Override
+    public List<AnuncioDetailedResponse> getReportedByUsuario(UUID idUsuario) {
+        List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
+
+        if(usuarioOptional.isEmpty()){
+            throw new RecordNotFoundException();
+        }
+
+        List<Anuncio> anuncios = anuncioRepository.findAnunciosWithDenunciasByUsuarioId(usuarioOptional.get().getId());
+        anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
+        anuncios.forEach(anuncio -> {
+            anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
+        });
+
+        return anunciosResponse;
+    }
+
+    private Anuncio changeStatus(UUID id, AnuncioStatus status) {
+        Anuncio anuncio = getById(id);
+
+        if (anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)) {
+            throw new RecordNotFoundException();
+        }
+        anuncio.setStatus(status);
+        return anuncioRepository.save(anuncio);
     }
 }

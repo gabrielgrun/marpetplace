@@ -46,6 +46,27 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuario.get();
     }
 
+    @Override
+    public Usuario activate(UUID id) {
+        return changeStatus(id, UsuarioStatus.ATIVO);
+    }
+
+    @Override
+    public Usuario deactivate(UUID id) {
+        return changeStatus(id, UsuarioStatus.INATIVO);
+    }
+
+    private Usuario changeStatus(UUID id, UsuarioStatus status) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+        if (usuarioOptional.isEmpty()) {
+            throw new RecordNotFoundException();
+        }
+
+        Usuario usuario = usuarioOptional.get();
+        usuario.setStatus(status);
+        return usuarioRepository.save(usuario);
+    }
+
     private String getEncryptedPassword(String password) {
         return passwordEncoder.encode(password);
     }

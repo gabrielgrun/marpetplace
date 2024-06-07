@@ -43,6 +43,20 @@ public class UsuarioController {
         return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
     }
 
+    @PatchMapping("/{id}/ativar")
+    public ResponseEntity activate(@PathVariable UUID id){
+        Usuario usuario = usuarioService.activate(id);
+        return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
+    }
+
+    @PatchMapping("/{id}/desativar")
+    public ResponseEntity deactivate(@PathVariable UUID id){
+        Usuario usuario = usuarioService.deactivate(id);
+        return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
+    }
+
+    // ANÚNCIOS
+
     @PostMapping("/{idUsuario}/anuncios")
     public ResponseEntity createAnuncio(@PathVariable UUID idUsuario,
                                    @RequestBody @Valid AnuncioRequest anuncioRequest, UriComponentsBuilder uriBuilder){
@@ -54,6 +68,12 @@ public class UsuarioController {
     @GetMapping("/{idUsuario}/anuncios")
     public ResponseEntity getAnunciosByUsuario(@PathVariable UUID idUsuario){
         List<AnuncioDetailedResponse> anuncios = anuncioService.getByUsuario(idUsuario);
+        return ResponseEntity.ok((anuncios));
+    }
+
+    @GetMapping("/{idUsuario}/anuncios/denunciados")
+    public ResponseEntity getReportedAnunciosByUsuario(@PathVariable UUID idUsuario){
+        List<AnuncioDetailedResponse> anuncios = anuncioService.getReportedByUsuario(idUsuario);
         return ResponseEntity.ok((anuncios));
     }
 }
