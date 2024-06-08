@@ -106,7 +106,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
-    public List<AnuncioDetailedResponse> getByUsuario(UUID idUsuario) {
+    public List<AnuncioDetailedResponse> getAtivosAndOcultadosByUsuario(UUID idUsuario) {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
 
@@ -114,7 +114,8 @@ public class AnuncioServiceImpl implements AnuncioService {
             throw new RecordNotFoundException();
         }
 
-        List<Anuncio> anuncios = anuncioRepository.findByUsuario(usuarioOptional.get());
+        List<Anuncio> anuncios = anuncioRepository.findByUsuarioAndAnuncioStatusNotIn(usuarioOptional.get(),
+                List.of(AnuncioStatus.EXCLUIDO, AnuncioStatus.DENUNCIADO));
         anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
             anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
@@ -132,7 +133,7 @@ public class AnuncioServiceImpl implements AnuncioService {
             throw new RecordNotFoundException();
         }
 
-        List<Anuncio> anuncios = anuncioRepository.findAnunciosWithDenunciasByUsuarioId(usuarioOptional.get().getId());
+        List<Anuncio> anuncios = anuncioRepository.findAnunciosDenunciadosByUsuarioId(usuarioOptional.get().getId());
         anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
             anunciosResponse.add(new AnuncioDetailedResponse(anuncio));

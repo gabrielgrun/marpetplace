@@ -16,7 +16,7 @@ public interface AnuncioService {
     Anuncio show(UUID id);
     void delete(UUID id);
     List<AnuncioDetailedResponse> getAll();
-    List<AnuncioDetailedResponse> getByUsuario(UUID idUsuario);
+    List<AnuncioDetailedResponse> getAtivosAndOcultadosByUsuario(UUID idUsuario);
     Anuncio report(UUID id);
     List<AnuncioDetailedResponse> getReportedByUsuario(UUID idUsuario);
 }

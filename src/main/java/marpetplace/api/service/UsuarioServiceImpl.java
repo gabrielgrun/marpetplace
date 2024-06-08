@@ -3,6 +3,7 @@ package marpetplace.api.service;
 
 import marpetplace.api.domain.UsuarioStatus;
 import marpetplace.api.domain.entity.Usuario;
+import marpetplace.api.dto.response.UsuarioDenunciaDto;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.UsuarioRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -54,6 +56,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario deactivate(UUID id) {
         return changeStatus(id, UsuarioStatus.INATIVO);
+    }
+
+    @Override
+    public List<UsuarioDenunciaDto> findMostReportedUsuarios() {
+        return usuarioRepository.findMostReportedUsuarios();
     }
 
     private Usuario changeStatus(UUID id, UsuarioStatus status) {

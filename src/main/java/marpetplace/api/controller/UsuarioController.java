@@ -6,6 +6,7 @@ import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.AnuncioRequest;
 import marpetplace.api.dto.request.UsuarioRequest;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
+import marpetplace.api.dto.response.UsuarioDenunciaDto;
 import marpetplace.api.dto.response.UsuarioDetailedResponse;
 import marpetplace.api.service.AnuncioService;
 import marpetplace.api.service.UsuarioService;
@@ -67,7 +68,7 @@ public class UsuarioController {
 
     @GetMapping("/{idUsuario}/anuncios")
     public ResponseEntity getAnunciosByUsuario(@PathVariable UUID idUsuario){
-        List<AnuncioDetailedResponse> anuncios = anuncioService.getByUsuario(idUsuario);
+        List<AnuncioDetailedResponse> anuncios = anuncioService.getAtivosAndOcultadosByUsuario(idUsuario);
         return ResponseEntity.ok((anuncios));
     }
 
@@ -75,5 +76,13 @@ public class UsuarioController {
     public ResponseEntity getReportedAnunciosByUsuario(@PathVariable UUID idUsuario){
         List<AnuncioDetailedResponse> anuncios = anuncioService.getReportedByUsuario(idUsuario);
         return ResponseEntity.ok((anuncios));
+    }
+
+    // DENÚNCIAS
+
+    @GetMapping("/mais-denunciados")
+    public ResponseEntity getMostReportedUsuarios(){
+        List<UsuarioDenunciaDto> usuarioDenunciaDtoList = usuarioService.findMostReportedUsuarios();
+        return ResponseEntity.ok(usuarioDenunciaDtoList);
     }
 }

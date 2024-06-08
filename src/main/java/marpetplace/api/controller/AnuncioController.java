@@ -2,17 +2,13 @@ package marpetplace.api.controller;
 
 import jakarta.validation.Valid;
 import marpetplace.api.domain.entity.Anuncio;
-import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.dto.request.AnuncioRequest;
-import marpetplace.api.dto.request.DenunciaRequest;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
-import marpetplace.api.dto.response.DenunciaDetailedResponse;
 import marpetplace.api.service.AnuncioService;
 import marpetplace.api.service.DenunciaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
