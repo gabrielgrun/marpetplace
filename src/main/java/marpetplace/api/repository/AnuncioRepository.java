@@ -4,6 +4,7 @@ import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
+public interface AnuncioRepository extends JpaRepository<Anuncio, UUID>, JpaSpecificationExecutor<Anuncio> {
 
     List<Anuncio> findByStatusOrderByDataCriacaoDesc(AnuncioStatus anuncioStatus);
     List<Anuncio> findAllByOrderByDataCriacaoDesc();

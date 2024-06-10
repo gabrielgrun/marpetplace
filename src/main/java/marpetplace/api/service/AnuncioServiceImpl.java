@@ -1,6 +1,9 @@
 package marpetplace.api.service;
 
 import marpetplace.api.domain.AnuncioStatus;
+import marpetplace.api.domain.Porte;
+import marpetplace.api.domain.Raca;
+import marpetplace.api.domain.Tipo;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.AnuncioRequest;
@@ -9,7 +12,9 @@ import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.AnuncioRepository;
 import marpetplace.api.repository.UsuarioRepository;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
+import marpetplace.api.specification.AnuncioSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -137,6 +142,39 @@ public class AnuncioServiceImpl implements AnuncioService {
         }
 
         List<Anuncio> anuncios = anuncioRepository.findAnunciosDenunciadosByUsuarioId(usuarioOptional.get().getId());
+        anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
+        anuncios.forEach(anuncio -> {
+            anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
+        });
+
+        return anunciosResponse;
+    }
+
+    @Override
+    public List<AnuncioDetailedResponse> getAnunciosAtivos(Raca raca, Porte porte, Tipo tipo) {
+        List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
+        Specification<Anuncio> spec = Specification.where(AnuncioSpecification.isAtivo())
+                .and(AnuncioSpecification.hasRaca(raca))
+                .and(AnuncioSpecification.hasPorte(porte))
+                .and(AnuncioSpecification.hasTipo(tipo));
+        List<Anuncio> anuncios = anuncioRepository.findAll(spec);
+
+        anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
+        anuncios.forEach(anuncio -> {
+            anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
+        });
+
+        return anunciosResponse;
+    }
+
+    @Override
+    public List<AnuncioDetailedResponse> getAnuncios(Raca raca, Porte porte, Tipo tipo) {
+        List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
+        Specification<Anuncio> spec = Specification.where(AnuncioSpecification.hasRaca(raca))
+                .and(AnuncioSpecification.hasPorte(porte))
+                .and(AnuncioSpecification.hasTipo(tipo));
+        List<Anuncio> anuncios = anuncioRepository.findAll(spec);
+
         anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
             anunciosResponse.add(new AnuncioDetailedResponse(anuncio));

@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import marpetplace.api.domain.Porte;
-import marpetplace.api.domain.Sexo;
-import marpetplace.api.domain.AnuncioStatus;
-import marpetplace.api.domain.Tipo;
+import marpetplace.api.domain.*;
 import marpetplace.api.dto.request.AnuncioRequest;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -55,6 +52,10 @@ public class Anuncio {
     private String contato;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "raca", length = 100)
+    private Raca raca;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 20)
     private AnuncioStatus status;
 
@@ -80,5 +81,6 @@ public class Anuncio {
         this.vacinado = anuncioRequest.vacinado();
         this.contato = anuncioRequest.contato();
         this.tipo = anuncioRequest.tipo();
+        this.raca = anuncioRequest.raca();
     }
 }
