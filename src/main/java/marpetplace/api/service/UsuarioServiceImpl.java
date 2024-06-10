@@ -4,6 +4,7 @@ package marpetplace.api.service;
 import marpetplace.api.domain.UsuarioStatus;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.response.UsuarioDenunciaDto;
+import marpetplace.api.email.EmailService;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.UsuarioRepository;
@@ -23,6 +24,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailSender;
 
     @Override
     public Usuario register(Usuario usuario){
@@ -71,6 +75,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Usuario usuario = usuarioOptional.get();
         usuario.setStatus(status);
+        emailSender.sendSimpleMessage(usuario.getEmail(),
+                "Seu usuário foi " + usuario.getStatus().name().toLowerCase() + "!",
+                "O seu usuário foi " + usuario.getStatus().name().toLowerCase()
+                        + " pela administração.");
+
         return usuarioRepository.save(usuario);
     }
 

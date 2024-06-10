@@ -4,6 +4,7 @@ import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.AnuncioRequest;
+import marpetplace.api.email.EmailService;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.AnuncioRepository;
 import marpetplace.api.repository.UsuarioRepository;
@@ -18,11 +19,13 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     private final AnuncioRepository anuncioRepository;
     private final UsuarioRepository usuarioRepository;
+    private final EmailService emailSender;
 
     @Autowired
-    public AnuncioServiceImpl(AnuncioRepository anuncioRepository, UsuarioRepository usuarioRepository) {
+    public AnuncioServiceImpl(AnuncioRepository anuncioRepository, UsuarioRepository usuarioRepository, EmailService emailSender) {
         this.anuncioRepository = anuncioRepository;
         this.usuarioRepository = usuarioRepository;
+        this.emailSender = emailSender;
     }
 
     @Override
@@ -84,8 +87,8 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     @Override
     public Anuncio report(UUID id) {
-        //TODO: enviar e-mail pro dono do anúncio
-        return changeStatus(id, AnuncioStatus.DENUNCIADO);
+        Anuncio anuncio = changeStatus(id, AnuncioStatus.DENUNCIADO);
+        return anuncio;
     }
 
 
@@ -114,7 +117,7 @@ public class AnuncioServiceImpl implements AnuncioService {
             throw new RecordNotFoundException();
         }
 
-        List<Anuncio> anuncios = anuncioRepository.findByUsuarioAndAnuncioStatusNotIn(usuarioOptional.get(),
+        List<Anuncio> anuncios = anuncioRepository.findByUsuarioAndStatusNotIn(usuarioOptional.get(),
                 List.of(AnuncioStatus.EXCLUIDO, AnuncioStatus.DENUNCIADO));
         anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
@@ -149,6 +152,9 @@ public class AnuncioServiceImpl implements AnuncioService {
             throw new RecordNotFoundException();
         }
         anuncio.setStatus(status);
+        emailSender.sendSimpleMessage(anuncio.getUsuario().getEmail(), "Seu anúncio mudou de status!",
+                "O anúncio do seu animal " + anuncio.getNome()
+                        + " teve seu status alterado para: " + anuncio.getStatus().name().toLowerCase());
         return anuncioRepository.save(anuncio);
     }
 }

@@ -1,4 +1,4 @@
-package marpetplace.api.infra;
+package marpetplace.api.config;
 
 import jakarta.persistence.EntityNotFoundException;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;

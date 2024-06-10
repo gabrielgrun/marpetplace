@@ -50,7 +50,7 @@ public class UsuarioController {
         return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
     }
 
-    @PatchMapping("/{id}/desativar")
+    @DeleteMapping("/{id}")
     public ResponseEntity deactivate(@PathVariable UUID id){
         Usuario usuario = usuarioService.deactivate(id);
         return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));

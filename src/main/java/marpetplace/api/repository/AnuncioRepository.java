@@ -17,7 +17,7 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID> {
     List<Anuncio> findByStatusOrderByDataCriacaoDesc(AnuncioStatus anuncioStatus);
     List<Anuncio> findAllByOrderByDataCriacaoDesc();
     List<Anuncio> findByUsuario(Usuario usuario);
-    List<Anuncio> findByUsuarioAndAnuncioStatusNotIn(Usuario usuario, List<AnuncioStatus> status);
+    List<Anuncio> findByUsuarioAndStatusNotIn(Usuario usuario, List<AnuncioStatus> status);
 
     @Query("SELECT a FROM Anuncio a WHERE a.usuario.id = :usuarioId AND a.status = 'DENUNCIADO'")
     List<Anuncio> findAnunciosDenunciadosByUsuarioId(@Param("usuarioId") UUID usuarioId);
