@@ -1,13 +1,11 @@
 package marpetplace.api.service;
 
+import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
-import marpetplace.api.domain.entity.Recurso;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.DenunciaRequest;
-import marpetplace.api.dto.response.AnuncioDetailedResponse;
 import marpetplace.api.dto.response.DenunciaDetailedResponse;
-import marpetplace.api.dto.response.RecursoDetailedResponse;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.AnuncioRepository;
 import marpetplace.api.repository.DenunciaRepository;
@@ -71,5 +69,28 @@ public class DenunciaServiceImpl implements DenunciaService {
         });
 
         return denunciasResponse;
+    }
+
+    @Override
+    public List<DenunciaDetailedResponse> getByIdAnuncioAndId(UUID idAnuncio) {
+        List<DenunciaDetailedResponse> denunciasResponse = new ArrayList<>();
+        List<Denuncia> denuncias = denunciaRepository.findByAnuncio_Id(idAnuncio);
+        denuncias.forEach(denuncia -> {
+            denunciasResponse.add(new DenunciaDetailedResponse(denuncia));
+        });
+
+        return denunciasResponse;
+    }
+
+    @Override
+    public void accept(UUID id) {
+        Denuncia denuncia = denunciaRepository.findById(id)
+                .orElseThrow(RecordNotFoundException::new);
+
+        Anuncio anuncio = denuncia.getAnuncio();
+        anuncio.setStatus(AnuncioStatus.DENUNCIADO);
+        anuncioRepository.save(anuncio);
+
+        denunciaRepository.deleteAllExcept(id, anuncio.getId());
     }
 }

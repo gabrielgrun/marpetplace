@@ -27,4 +27,10 @@ public class DenunciaController {
         denunciaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/aceitar/{id}")
+    public ResponseEntity<Void> accept(@PathVariable UUID id) {
+        denunciaService.accept(id);
+        return ResponseEntity.noContent().build();
+    }
 }

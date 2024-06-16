@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ErrorHandler {
 
-    @ExceptionHandler({EntityNotFoundException.class, RecordNotFoundException.class})
+    @ExceptionHandler({EntityNotFoundException.class, RecordNotFoundException.class, IllegalArgumentException.class})
     public ResponseEntity handleError404() {
         return ResponseEntity.notFound().build();
     }

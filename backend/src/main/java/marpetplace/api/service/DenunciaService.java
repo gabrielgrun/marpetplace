@@ -11,4 +11,6 @@ public interface DenunciaService {
     Denuncia register(UUID idAnuncio, DenunciaRequest denunciaRequest);
     void delete(UUID id);
     List<DenunciaDetailedResponse> getAll();
+    List<DenunciaDetailedResponse> getByIdAnuncioAndId(UUID idAnuncio);
+    void accept(UUID id);
 }

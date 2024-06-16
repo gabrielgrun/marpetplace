@@ -4,5 +4,6 @@ public enum AnuncioStatus {
     ATIVO,
     OCULTADO,
     DENUNCIADO,
+    RECURSO,
     EXCLUIDO
 }

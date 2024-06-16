@@ -1,6 +1,7 @@
 package marpetplace.api.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
 public class Recurso {
 
     @Id
