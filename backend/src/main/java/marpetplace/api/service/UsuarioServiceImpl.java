@@ -4,6 +4,7 @@ package marpetplace.api.service;
 import marpetplace.api.domain.UsuarioStatus;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.response.UsuarioDenunciaDto;
+import marpetplace.api.dto.response.UsuarioDetailedResponse;
 import marpetplace.api.email.EmailService;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
 import marpetplace.api.exception.RecordNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,6 +67,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<UsuarioDenunciaDto> findMostReportedUsuarios() {
         return usuarioRepository.findMostReportedUsuarios();
+    }
+
+    @Override
+    public List<UsuarioDetailedResponse> getInativos() {
+        List<UsuarioDetailedResponse> usuariosResponse = new ArrayList<>();
+        List<Usuario> usuarios = usuarioRepository.findByStatus(UsuarioStatus.INATIVO);
+
+        usuarios.forEach(usuario -> {
+            usuariosResponse.add(new UsuarioDetailedResponse(usuario));
+        });
+
+        return usuariosResponse;
     }
 
     private Usuario changeStatus(UUID id, UsuarioStatus status) {

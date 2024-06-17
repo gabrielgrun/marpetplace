@@ -56,6 +56,12 @@ public class UsuarioController {
         return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
     }
 
+    @GetMapping("/inativos")
+    public ResponseEntity getInativos(){
+        List<UsuarioDetailedResponse> usuarios = usuarioService.getInativos();
+        return ResponseEntity.ok(usuarios);
+    }
+
     // ANÚNCIOS
 
     @PostMapping("/{idUsuario}/anuncios")

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UsuarioDenunciaDto {
 
+    private String nome;
     private String email;
     private Long numeroDenuncias;
 }
