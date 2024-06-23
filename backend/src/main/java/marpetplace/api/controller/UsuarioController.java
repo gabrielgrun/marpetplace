@@ -1,6 +1,7 @@
 package marpetplace.api.controller;
 
 import jakarta.validation.Valid;
+import marpetplace.api.domain.Raca;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.AnuncioRequest;
@@ -60,6 +61,21 @@ public class UsuarioController {
     public ResponseEntity getInativos(){
         List<UsuarioDetailedResponse> usuarios = usuarioService.getInativos();
         return ResponseEntity.ok(usuarios);
+    }
+
+    @PatchMapping("/{id}/recuperar-senha")
+    public ResponseEntity<Void> recoverPassword(@PathVariable UUID id, @RequestParam(required = true) String email){
+        Usuario usuario = usuarioService.getById(id);
+        usuarioService.recoverPassword(usuario, email);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/alterar-senha")
+    public ResponseEntity<Void> changePassword(@PathVariable UUID id, @RequestParam(required = true) String token,
+                                               @RequestParam(required = true) String password){
+        Usuario usuario = usuarioService.getById(id);
+        usuarioService.changePassword(usuario, token, password);
+        return ResponseEntity.noContent().build();
     }
 
     // ANÚNCIOS

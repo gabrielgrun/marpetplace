@@ -21,6 +21,8 @@ import java.util.UUID;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
+    private final String secretKey = "01eb42d2-8d98-4a70-8978-037404504d9d";
+
     @Autowired
     UsuarioRepository usuarioRepository;
 
@@ -79,6 +81,34 @@ public class UsuarioServiceImpl implements UsuarioService {
         });
 
         return usuariosResponse;
+    }
+
+    @Override
+    public void recoverPassword(Usuario usuario, String email) {
+        Usuario usuarioFromDb = usuarioRepository.getByEmail(usuario.getEmail());
+        if(usuarioFromDb == null){
+            throw new RecordNotFoundException();
+        }
+
+        String token = getEncryptedPassword(createToken(usuario));
+
+        emailSender.sendSimpleMessage(email, "Recuperação de Senha", token);
+    }
+
+    @Override
+    public void changePassword(Usuario usuario, String token, String password) {
+        boolean matches = passwordEncoder.matches(token, createToken(usuario));
+        if(matches){
+            String encryptedPassword = getEncryptedPassword(password);
+            usuario.setSenha(encryptedPassword);
+            usuarioRepository.save(usuario);
+            emailSender.sendSimpleMessage(usuario.getEmail(), "Sua senha foi alterada",
+                    "Senha alterada com sucesso!");
+        }
+    }
+
+    private String createToken(Usuario usuario) {
+        return usuario.getId() + usuario.getEmail() + secretKey;
     }
 
     private Usuario changeStatus(UUID id, UsuarioStatus status) {
