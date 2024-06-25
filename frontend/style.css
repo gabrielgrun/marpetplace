@@ -46,52 +46,42 @@ body {
 .dropdowns select {
     width: 10%;
 }
-/*
 
 .animal-card {
-    width: 40%;
+    width: 30%;
     background-color: #FFFFFF;
     font-family: 'Inter';
-}
-
-.animal-card h1 {
-    font-weight: bold;
-}
-
-.foto {
-    width: 150px;
-}
-
-.infos {
-    width: 100%;
-}*/
-
-.animal-card {
-    display: flex;
-    width: 40%;
-    background-color: #FFFFFF;
-    font-family: 'Inter';
-    padding: 20px;
+    padding: 0px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .animal-card .foto {
-    width: 150px;
+    width: 100%;
     margin-right: 20px;
-}
-
-.animal-card .infos {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .animal-card .infos h1 {
     font-weight: bold;
     margin: 0 0 10px;
+    font-size: 2rem;
 }
 
 .animal-card .infos p {
-    margin: 0 0 5px;
+    margin: 0px 0px 5px 30px;
 }
+
+.container-foto {
+    width: 30%;
+}
+
+.infos {
+    width: 70%;
+}
+
+.foto {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
