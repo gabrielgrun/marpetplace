@@ -21,10 +21,77 @@ body {
 }
 
 .header-icon {
-    font-size: 2em;
+    font-size: 2rem;
     margin-right: 8px;
 }
 
 .pointer {
     cursor: pointer;
+}
+
+.looking-for-home {
+    color: #FF9B23;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 2rem;
+}
+
+.dropdowns {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.dropdowns select {
+    width: 10%;
+}
+/*
+
+.animal-card {
+    width: 40%;
+    background-color: #FFFFFF;
+    font-family: 'Inter';
+}
+
+.animal-card h1 {
+    font-weight: bold;
+}
+
+.foto {
+    width: 150px;
+}
+
+.infos {
+    width: 100%;
+}*/
+
+.animal-card {
+    display: flex;
+    width: 40%;
+    background-color: #FFFFFF;
+    font-family: 'Inter';
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.animal-card .foto {
+    width: 150px;
+    margin-right: 20px;
+}
+
+.animal-card .infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.animal-card .infos h1 {
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+.animal-card .infos p {
+    margin: 0 0 5px;
 }
