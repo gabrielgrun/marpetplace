@@ -5,6 +5,7 @@ import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.response.UsuarioDenunciaDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             "ORDER BY COUNT(d.id) DESC")
     List<UsuarioDenunciaDto> findMostReportedUsuarios();
     List<Usuario> findByStatus(UsuarioStatus usuarioStatus);
+
+    //Authentication
+    UserDetails findByEmail(String email);
 }
