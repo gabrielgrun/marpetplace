@@ -2,7 +2,7 @@ package marpetplace.api.domain;
 
 public enum Raca {
     VIRA_LATA,
-    LABRADOR_RETRIEVER,
+    LABRADOR,
     BULDOGUE_FRANCÊS,
     PASTOR_ALEMÃO,
     GOLDEN_RETRIEVER,
@@ -19,7 +19,7 @@ public enum Raca {
     SPHYNX,
     BRITISH_SHORTHAIR,
     SCOTTISH_FOLD,
-    SIAMESE,
-    ABYSSINIAN,
+    SIBERIANO,
+    ABISSINIO,
     OUTRA
 }
