@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import marpetplace.api.repository.AdminRepository;
 import marpetplace.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,14 +24,27 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private AdminRepository adminRepository;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tokenJwt = retrieveToken(request);
-        if(tokenJwt != null){
+        if (tokenJwt != null) {
             String subject = tokenService.getSubject(tokenJwt);
-            UserDetails usuario = usuarioRepository.findByEmail(subject);
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String role = tokenService.getRole(tokenJwt);
+
+            UserDetails userDetails = null;
+            if ("ROLE_USER".equals(role)) {
+                userDetails = usuarioRepository.findByEmail(subject);
+            } else if ("ROLE_ADMIN".equals(role)) {
+                userDetails = adminRepository.findByLogin(subject);
+            }
+
+            if (userDetails != null) {
+                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
         filterChain.doFilter(request, response);

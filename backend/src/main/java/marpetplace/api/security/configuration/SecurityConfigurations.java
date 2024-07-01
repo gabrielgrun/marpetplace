@@ -29,6 +29,9 @@ public class SecurityConfigurations {
                         .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(req -> {
                             req.requestMatchers("/login").permitAll();
+                            req.requestMatchers("/admin/**").hasRole("ADMIN");
+                            req.requestMatchers("/user/**").hasRole("USER");
+                            req.requestMatchers("/common/**").hasAnyRole("ADMIN", "USER");
                             req.anyRequest().authenticated();
                         })
                         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
