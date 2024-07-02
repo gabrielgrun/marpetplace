@@ -1,18 +1,27 @@
 package marpetplace.api.controller;
 
 import jakarta.validation.Valid;
-import marpetplace.api.domain.Raca;
 import marpetplace.api.domain.entity.Anuncio;
+import marpetplace.api.domain.entity.Denuncia;
+import marpetplace.api.domain.entity.Recurso;
 import marpetplace.api.domain.entity.Usuario;
+import marpetplace.api.dto.LoginRequest;
 import marpetplace.api.dto.request.AnuncioRequest;
+import marpetplace.api.dto.request.DenunciaRequest;
+import marpetplace.api.dto.request.RecursoRequest;
 import marpetplace.api.dto.request.UsuarioRequest;
-import marpetplace.api.dto.response.AnuncioDetailedResponse;
-import marpetplace.api.dto.response.UsuarioDenunciaDto;
-import marpetplace.api.dto.response.UsuarioDetailedResponse;
+import marpetplace.api.dto.response.*;
+import marpetplace.api.security.TokenService;
 import marpetplace.api.service.AnuncioService;
+import marpetplace.api.service.DenunciaService;
+import marpetplace.api.service.RecursoService;
 import marpetplace.api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -29,6 +38,28 @@ public class UsuarioController {
     @Autowired
     AnuncioService anuncioService;
 
+    @Autowired
+    RecursoService recursoService;
+
+    @Autowired
+    DenunciaService denunciaService;
+
+    @Autowired
+    @Qualifier("usuarioAuthenticationManager")
+    private AuthenticationManager usuarioAuthenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @PostMapping("/login")
+    public ResponseEntity doLogin(@RequestBody @Valid LoginRequest loginRequest){
+        var authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.senha());
+        Authentication authentication = usuarioAuthenticationManager.authenticate(authenticationToken);
+        var tokenJwt = tokenService.createToken((Usuario) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new JwtDataResponse(tokenJwt));
+    }
+
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid UsuarioRequest usuarioRequest, UriComponentsBuilder uriBuilder){
         Usuario usuario = new Usuario(usuarioRequest);
@@ -37,30 +68,6 @@ public class UsuarioController {
         var uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new UsuarioDetailedResponse(usuario));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity getById(@PathVariable UUID id){
-        Usuario usuario = usuarioService.getById(id);
-        return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
-    }
-
-    @PatchMapping("/{id}/ativar")
-    public ResponseEntity activate(@PathVariable UUID id){
-        Usuario usuario = usuarioService.activate(id);
-        return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity deactivate(@PathVariable UUID id){
-        Usuario usuario = usuarioService.deactivate(id);
-        return ResponseEntity.ok(new UsuarioDetailedResponse(usuario));
-    }
-
-    @GetMapping("/inativos")
-    public ResponseEntity getInativos(){
-        List<UsuarioDetailedResponse> usuarios = usuarioService.getInativos();
-        return ResponseEntity.ok(usuarios);
     }
 
     @PatchMapping("/{id}/recuperar-senha")
@@ -100,11 +107,46 @@ public class UsuarioController {
         return ResponseEntity.ok((anuncios));
     }
 
-    // DENÚNCIAS
+    @PutMapping("/anuncios/{id}")
+    public ResponseEntity update(@PathVariable UUID id, @RequestBody @Valid AnuncioRequest anuncioRequest) {
+        Anuncio anuncio = anuncioService.update(id, anuncioRequest);
+        return ResponseEntity.noContent().build();
+    }
 
-    @GetMapping("/mais-denunciados")
-    public ResponseEntity getMostReportedUsuarios(){
-        List<UsuarioDenunciaDto> usuarioDenunciaDtoList = usuarioService.findMostReportedUsuarios();
-        return ResponseEntity.ok(usuarioDenunciaDtoList);
+    @PatchMapping("/anuncios/{id}/ocultar")
+    public ResponseEntity hide(@PathVariable UUID id) {
+        Anuncio anuncio = anuncioService.hide(id);
+        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
+    }
+
+    @PatchMapping("/anuncios/{id}/exibir")
+    public ResponseEntity show(@PathVariable UUID id) {
+        Anuncio anuncio = anuncioService.show(id);
+        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
+    }
+
+    @PatchMapping("/anuncios/{id}/denunciar")
+    public ResponseEntity report(@PathVariable UUID id) {
+        Anuncio anuncio = anuncioService.report(id);
+        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
+    }
+
+    // DENUNCIA
+
+    @PostMapping("/denuncias")
+    public ResponseEntity denunciaCreate(@PathVariable UUID idAnuncio,
+                                         @RequestBody @Valid DenunciaRequest denunciaRequest, UriComponentsBuilder uriBuilder){
+        Denuncia denuncia = denunciaService.register(idAnuncio, denunciaRequest);
+        var uri = uriBuilder.path("/{idAnuncio}/denuncias/{id}").buildAndExpand(idAnuncio, denuncia.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DenunciaDetailedResponse(denuncia));
+    }
+
+    // RECURSOS
+
+    @PostMapping("/recursos")
+    public ResponseEntity createRecurso(@RequestBody @Valid RecursoRequest recursoRequest, UriComponentsBuilder uriBuilder){
+        Recurso recurso = recursoService.register(recursoRequest);
+        var uri = uriBuilder.path("/recurso/{id}").buildAndExpand(recurso.getId()).toUri();
+        return ResponseEntity.created(uri).body(new RecursoDetailedResponse(recurso));
     }
 }

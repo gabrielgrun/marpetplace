@@ -5,6 +5,7 @@ import marpetplace.api.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,10 @@ public class AdminAuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-       return adminRepository.findByLogin(username);
+        Admin admin = adminRepository.findByLogin(username);
+        if (admin == null) {
+            throw new UsernameNotFoundException("Admin not found");
+        }
+        return admin;
     }
 }

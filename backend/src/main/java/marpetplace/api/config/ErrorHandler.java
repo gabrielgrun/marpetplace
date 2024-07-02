@@ -43,7 +43,7 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação");
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity handleAcessDenied() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
     }

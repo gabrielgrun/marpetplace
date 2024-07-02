@@ -72,7 +72,7 @@ public class DenunciaServiceImpl implements DenunciaService {
     }
 
     @Override
-    public List<DenunciaDetailedResponse> getByIdAnuncioAndId(UUID idAnuncio) {
+    public List<DenunciaDetailedResponse> getByIdAnuncio(UUID idAnuncio) {
         List<DenunciaDetailedResponse> denunciasResponse = new ArrayList<>();
         List<Denuncia> denuncias = denunciaRepository.findByAnuncio_Id(idAnuncio);
         denuncias.forEach(denuncia -> {

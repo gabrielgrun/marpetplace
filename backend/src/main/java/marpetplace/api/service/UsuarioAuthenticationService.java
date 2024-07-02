@@ -1,5 +1,6 @@
 package marpetplace.api.service;
 
+import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,10 @@ public class UsuarioAuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(username);
+        Usuario usuario = usuarioRepository.findByEmail(username);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return usuario;
     }
 }

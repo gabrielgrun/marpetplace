@@ -26,5 +26,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
     List<Usuario> findByStatus(UsuarioStatus usuarioStatus);
 
     //Authentication
-    UserDetails findByEmail(String email);
+    Usuario findByEmail(String email);
 }
