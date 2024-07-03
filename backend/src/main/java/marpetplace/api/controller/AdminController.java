@@ -59,12 +59,6 @@ public class AdminController {
 
     //USUARIO
 
-    @GetMapping("/usuarios/{id}")
-    public ResponseEntity getById(@PathVariable UUID id) {
-        Anuncio anuncio = anuncioService.getById(id);
-        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
-    }
-
     @PatchMapping("/usuarios/{id}/ativar")
     public ResponseEntity activate(@PathVariable UUID id){
         Usuario usuario = usuarioService.activate(id);
@@ -84,6 +78,12 @@ public class AdminController {
     }
 
     //ANÚNCIOS
+
+    /*@GetMapping("/usuarios/{id}")
+    public ResponseEntity getById(@PathVariable UUID id) {
+        Anuncio anuncio = anuncioService.getById(id);
+        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
+    }*/
 
     @GetMapping("/anuncios")
     public ResponseEntity get(@RequestParam(required = false) Raca raca,
