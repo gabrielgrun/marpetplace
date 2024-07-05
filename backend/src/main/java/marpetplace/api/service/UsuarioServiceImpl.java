@@ -1,6 +1,7 @@
 package marpetplace.api.service;
 
 
+import jakarta.transaction.Transactional;
 import marpetplace.api.domain.UsuarioStatus;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.response.UsuarioDenunciaDto;
@@ -33,6 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private EmailService emailSender;
 
     @Override
+    @Transactional
     public Usuario register(Usuario usuario){
         Usuario usuarioFromDb = usuarioRepository.getByEmail(usuario.getEmail());
         if(usuarioFromDb != null){
@@ -47,6 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public Usuario getById(UUID id){
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         if(usuario.isEmpty()){
@@ -67,11 +70,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public List<UsuarioDenunciaDto> findMostReportedUsuarios() {
         return usuarioRepository.findMostReportedUsuarios();
     }
 
     @Override
+    @Transactional
     public List<UsuarioDetailedResponse> getInativos() {
         List<UsuarioDetailedResponse> usuariosResponse = new ArrayList<>();
         List<Usuario> usuarios = usuarioRepository.findByStatus(UsuarioStatus.INATIVO);
@@ -84,6 +89,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public void recoverPassword(Usuario usuario, String email) {
         Usuario usuarioFromDb = usuarioRepository.getByEmail(usuario.getEmail());
         if(usuarioFromDb == null){
@@ -96,6 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public void changePassword(Usuario usuario, String token, String password) {
         boolean matches = passwordEncoder.matches(token, createToken(usuario));
         if(matches){
@@ -107,11 +114,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
-    private String createToken(Usuario usuario) {
-        return usuario.getId() + usuario.getEmail() + secretKey;
-    }
-
-    private Usuario changeStatus(UUID id, UsuarioStatus status) {
+    @Transactional
+    public Usuario changeStatus(UUID id, UsuarioStatus status) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if (usuarioOptional.isEmpty()) {
             throw new RecordNotFoundException();
@@ -125,6 +129,10 @@ public class UsuarioServiceImpl implements UsuarioService {
                         + " pela administração.");
 
         return usuarioRepository.save(usuario);
+    }
+
+    private String createToken(Usuario usuario) {
+        return usuario.getId() + usuario.getEmail() + secretKey;
     }
 
     private String getEncryptedPassword(String password) {

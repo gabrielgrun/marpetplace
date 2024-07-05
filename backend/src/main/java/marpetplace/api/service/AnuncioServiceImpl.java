@@ -1,5 +1,6 @@
 package marpetplace.api.service;
 
+import jakarta.transaction.Transactional;
 import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.Porte;
 import marpetplace.api.domain.Raca;
@@ -36,6 +37,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public Anuncio register(UUID idUsuario, AnuncioRequest anuncioRequest) {
         Anuncio anuncio = new Anuncio(anuncioRequest);
 
@@ -51,6 +53,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public Anuncio getById(UUID id) {
         Optional<Anuncio> anuncio = anuncioRepository.findById(id);
         if(anuncio.isEmpty()){
@@ -61,6 +64,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public List<AnuncioDetailedResponse> getActives() {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         List<Anuncio> anuncios = anuncioRepository.findByStatusOrderByDataCriacaoDesc(AnuncioStatus.ATIVO);
@@ -72,6 +76,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public Anuncio update(UUID id, AnuncioRequest anuncioRequest) {
         Anuncio anuncioFromRequest = new Anuncio(anuncioRequest);
         Anuncio anuncioFromDb = getById(id);
@@ -105,6 +110,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public List<AnuncioDetailedResponse> getAll() {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         List<Anuncio> anuncios = anuncioRepository.findAllByOrderByDataCriacaoDesc();
@@ -116,6 +122,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public List<AnuncioDetailedResponse> getAtivosAndOcultadosByUsuario(UUID idUsuario) {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
@@ -135,6 +142,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public List<AnuncioDetailedResponse> getReportedByUsuario(UUID idUsuario) {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
@@ -153,6 +161,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public List<AnuncioDetailedResponse> getAnunciosAtivos(Raca raca, Porte porte, Tipo tipo) {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         Specification<Anuncio> spec = Specification.where(AnuncioSpecification.isAtivo())
@@ -170,6 +179,7 @@ public class AnuncioServiceImpl implements AnuncioService {
     }
 
     @Override
+    @Transactional
     public List<AnuncioDetailedResponse> getAnuncios(Raca raca, Porte porte, Tipo tipo) {
         List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
         Specification<Anuncio> spec = Specification.where(AnuncioSpecification.hasRaca(raca))
@@ -185,7 +195,8 @@ public class AnuncioServiceImpl implements AnuncioService {
         return anunciosResponse;
     }
 
-    private Anuncio changeStatus(UUID id, AnuncioStatus status) {
+    @Transactional
+    public Anuncio changeStatus(UUID id, AnuncioStatus status) {
         Anuncio anuncio = getById(id);
 
         if (anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)) {

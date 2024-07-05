@@ -1,5 +1,6 @@
 package marpetplace.api.service;
 
+import jakarta.transaction.Transactional;
 import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
@@ -34,6 +35,7 @@ public class DenunciaServiceImpl implements DenunciaService {
     }
 
     @Override
+    @Transactional
     public Denuncia register(UUID idAnuncio, DenunciaRequest denunciaRequest) {
         Denuncia denuncia = new Denuncia(denunciaRequest);
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(denunciaRequest.idDenunciante());
@@ -50,6 +52,7 @@ public class DenunciaServiceImpl implements DenunciaService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
         Optional<Denuncia> denunciaOptional = denunciaRepository.findById(id);
 
@@ -61,6 +64,7 @@ public class DenunciaServiceImpl implements DenunciaService {
     }
 
     @Override
+    @Transactional
     public List<DenunciaDetailedResponse> getAll() {
         List<DenunciaDetailedResponse> denunciasResponse = new ArrayList<>();
         List<Denuncia> denuncias = denunciaRepository.findAll();
@@ -72,6 +76,7 @@ public class DenunciaServiceImpl implements DenunciaService {
     }
 
     @Override
+    @Transactional
     public List<DenunciaDetailedResponse> getByIdAnuncio(UUID idAnuncio) {
         List<DenunciaDetailedResponse> denunciasResponse = new ArrayList<>();
         List<Denuncia> denuncias = denunciaRepository.findByAnuncio_Id(idAnuncio);
@@ -83,6 +88,7 @@ public class DenunciaServiceImpl implements DenunciaService {
     }
 
     @Override
+    @Transactional
     public void accept(UUID id) {
         Denuncia denuncia = denunciaRepository.findById(id)
                 .orElseThrow(RecordNotFoundException::new);

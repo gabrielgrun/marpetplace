@@ -29,6 +29,10 @@ body {
     margin-right: 8px;
 }
 
+.logout{
+    margin-left: 40px;
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -94,6 +98,7 @@ body {
 .foto {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    max-width: 500px;
 }
 
 .grid {
@@ -115,4 +120,43 @@ body {
 .danger:hover {
     box-shadow: 0px 0px 10px 3px rgb(247 8 8 / 53%);
     border-radius: 50%;
+}
+
+.container-anuncio{
+    border: 1px solid #908D8D;
+    border-radius: 8px;
+    padding: 0;
+    margin-top: 40px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.info-anuncio{
+    font-family: 'Inter';
+    padding: 50px;
+    font-size: 1.3rem;
+}
+
+.info-anuncio-main{
+    flex-grow: 0;
+    font-size: 1.2rem;
+}
+
+.info-anuncio-main p{
+    font-weight: bold;
+}
+
+.info-anuncio-main i{
+    margin-right: 10px;
+}
+
+.info-anuncio-description{
+    font-size: .9rem;
+    margin-top: auto;
+}
+
+.anuncio-icons{
+    display: flex;
+    gap: 10px;
+    font-size: 1.7rem;
 }

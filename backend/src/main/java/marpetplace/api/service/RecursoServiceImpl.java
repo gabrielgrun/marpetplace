@@ -1,5 +1,6 @@
 package marpetplace.api.service;
 
+import jakarta.transaction.Transactional;
 import marpetplace.api.domain.AnuncioStatus;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
@@ -33,6 +34,7 @@ public class RecursoServiceImpl implements RecursoService {
     DenunciaRepository denunciaRepository;
 
     @Override
+    @Transactional
     public List<RecursoDetailedResponse> getAll() {
         List<RecursoDetailedResponse> recursosResponse = new ArrayList<>();
         List<Recurso> recursos = recursoRepository.findAll();
@@ -44,6 +46,7 @@ public class RecursoServiceImpl implements RecursoService {
     }
 
     @Override
+    @Transactional
     public void accept(UUID id) {
         Recurso recurso = recursoRepository.findById(id)
                 .orElseThrow(RecordNotFoundException::new);
@@ -56,6 +59,7 @@ public class RecursoServiceImpl implements RecursoService {
     }
 
     @Override
+    @Transactional
     public Recurso register(RecursoRequest recursoRequest) {
         Anuncio anuncio = anuncioRepository.findById(recursoRequest.idAnuncio())
                 .orElseThrow(() -> new IllegalArgumentException("Anúncio não encontrado"));
@@ -81,6 +85,7 @@ public class RecursoServiceImpl implements RecursoService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
         Optional<Recurso> recursoOptional = recursoRepository.findById(id);
         if(recursoOptional.isEmpty()){
