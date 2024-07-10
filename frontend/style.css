@@ -12,6 +12,7 @@ body {
 
 .height-main {
     height: calc(100vh - 58.39px);
+    padding: 0;
 }
 
 .header {
@@ -98,7 +99,12 @@ body {
 .foto {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    object-fit: cover;
     max-width: 500px;
+}
+
+.minor-foto {
+    min-width: 100px;
 }
 
 .grid {
