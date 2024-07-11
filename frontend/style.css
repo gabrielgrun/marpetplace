@@ -21,6 +21,7 @@ body {
 }
 
 .header h1 {
+    user-select: none;
     font-size: 2rem;
     margin: 0;
 }
@@ -48,6 +49,7 @@ body {
 }
 
 .dropdowns {
+    user-select: none;
     margin-top: 40px;
     margin-bottom: 40px;
 }
@@ -57,6 +59,7 @@ body {
 }
 
 .animal-card {
+    user-select: none;
     background-color: #FFFFFF;
     font-family: 'Inter';
     padding: 0px;
@@ -165,4 +168,39 @@ body {
     display: flex;
     gap: 10px;
     font-size: 1.7rem;
+}
+
+.side-menu{
+    background-color: #FFE3B3;
+    color: #FF9B23;
+    font-size: 1.7rem;
+}
+
+.side-menu div{
+    cursor: pointer;
+    padding: 30px;
+}
+
+.side-menu .active{
+    background-color: #FFF8DC;
+}
+
+.side-menu p{
+    user-select: none;
+    margin: 0;
+    margin-left: 5px;
+}
+
+.side-menu div:hover{
+    /*background-color: rgba(255, 227, 179, 2);
+    color: rgba(255, 155, 35, 0.5);
+    opacity: 1; */
+
+    background-color: rgba(255, 213, 158, 0.5); /* Ajuste a cor de fundo com opacidade */
+    color: rgba(255, 155, 35, 0.5); /* Ajuste a cor do texto com opacidade */
+    opacity: 1; /* Mantenha a opacidade para outros elementos */
+}
+
+.side-menu div.active:hover{
+    background-color: rgba(255, 248, 220, 0.8);
 }
