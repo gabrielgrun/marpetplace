@@ -16,7 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     Usuario getByEmail(String email);
 
-    @Query("SELECT new marpetplace.api.dto.response.UsuarioDenunciaDto(u.nome, u.email, COUNT(d.id)) " +
+    @Query("SELECT new marpetplace.api.dto.response.UsuarioDenunciaDto(u.id, u.nome, u.email, COUNT(d.id)) " +
             "FROM Usuario u " +
             "JOIN Anuncio a ON u.id = a.usuario.id " +
             "JOIN Denuncia d ON a.id = d.anuncio.id " +

@@ -179,10 +179,12 @@ body {
 .side-menu div{
     cursor: pointer;
     padding: 30px;
+    transition: .2s;
 }
 
 .side-menu .active{
     background-color: #FFF8DC;
+    cursor: default;
 }
 
 .side-menu p{
@@ -191,16 +193,52 @@ body {
     margin-left: 5px;
 }
 
-.side-menu div:hover{
-    /*background-color: rgba(255, 227, 179, 2);
-    color: rgba(255, 155, 35, 0.5);
-    opacity: 1; */
-
-    background-color: rgba(255, 213, 158, 0.5); /* Ajuste a cor de fundo com opacidade */
-    color: rgba(255, 155, 35, 0.5); /* Ajuste a cor do texto com opacidade */
-    opacity: 1; /* Mantenha a opacidade para outros elementos */
+.side-menu div:not(.active):hover {
+    background-color: #FFA64D;
+    color: #FFFFFF;
 }
 
-.side-menu div.active:hover{
-    background-color: rgba(255, 248, 220, 0.8);
+.table-admin{
+    color: #FF9B23;
+    margin-top: 50px;
+}
+
+.table-admin div{
+    border-bottom: 1px black solid;
+}
+
+.table-admin h2{
+    font-size: 1.7rem;
+}
+
+.table-admin p{
+    margin: 0;
+}
+
+.btn-desativar{
+    font-family: 'Inter';
+    background-color: #FF7223;
+    color: #FFFFFF;
+    width: 10%;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    height: 35px;
+    margin: 5px 0 5px 0;
+    user-select: none;
+    transition: .2s;
+    font-size: .9rem;
+}
+
+.btn-desativar:hover{
+    background-color: #FF5710;
+    color: #FFFFFF;
+}
+
+.btn-reativar{
+    font-family: 'Inter';
+    margin: 5px 0 5px 0;
+    width: 10%;
+    font-size: .9rem;
+    border-radius: 3px;
 }
