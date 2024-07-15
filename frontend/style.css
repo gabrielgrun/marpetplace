@@ -242,3 +242,156 @@ body {
     font-size: .9rem;
     border-radius: 3px;
 }
+
+.side-menu-cadastro{
+    background-color: #FFE3B3;
+    width: 40%;
+    padding-top: 10px;
+    gap: 10px;
+    position: relative;
+}
+
+.side-menu-cadastro div{
+    transition: .2s;
+}
+
+.side-menu-cadastro p{
+    user-select: none;
+    margin: 0;
+    margin-left: 5px;
+}
+
+.side-menu-cadastro .cadastro-active {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    margin-right: 0;
+    box-shadow: -1px 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: default;
+    width: 100% !important;
+}
+
+.side-menu-cadastro .animal-card .infos h1 {
+    font-size: 1.3rem;
+}
+
+.side-menu-cadastro .animal-card{
+    width: 90%;
+}
+
+.side-menu-cadastro .animal-card:hover{
+    scale: 1;
+}
+
+.side-menu-cadastro .danger:hover{
+    box-shadow: 0px 0px;
+    border-radius: 0;
+}
+
+.div-btn-novo-anuncio{
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.div-btn-novo-anuncio button{
+    outline: none;
+    border: none;
+    font-family: 'Inter';
+    border-radius: 3px;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    color: #FF9B23;
+    padding: 10px 15%;
+    transition: .2s;
+}
+
+.div-btn-novo-anuncio button:hover{
+    background-color: #FF9B23;
+    color: #FFFFFF;
+}
+
+.cadastro-active{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.form-cadastro{
+    background-color: #FFFFFF;
+    font-family: 'Inter';
+    font-weight: bold;
+}
+
+.container-select-cadastro {
+    padding: 0;
+}
+
+.container-select-cadastro select{
+    width: 30%;
+}
+
+.btn-cadastro{
+    background: #FF9B23;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    color: #FFFFFF;
+    border: none;
+    width: 135px;
+    height: 35px;
+    transition: .2s;
+}
+
+.btn-cadastro:hover{
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.form-cadastro form .container-fluid > div{
+    margin: 10px 0;
+}
+
+.form-cadastro form .container-fluid > div.form-check {
+    margin: 20px 0 -8px;
+}
+
+.btn-group{
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+    width: 350px;
+}
+
+.grid-recurso{
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-gap: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+}
+
+.card-recurso{
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    font-family: 'Inter';
+    font-weight: normal;
+    font-size: .9rem;
+    padding: 35px 35px 5px 35px;
+    border: 1px solid #908D8D;
+    position: relative;
+}
+
+.card-recurso i{
+    color: #FF9B23;
+    font-size: 1.3rem;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    user-select: none;
+}
+
+.btn-group-recurso{
+    padding: 0;
+}
+
+.btn-group-recurso button{
+    width: 30%;
+}
