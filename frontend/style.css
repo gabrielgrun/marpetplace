@@ -395,3 +395,30 @@ body {
 .btn-group-recurso button{
     width: 30%;
 }
+
+.denuncias-anuncio-group{
+    color: #FF9B23;
+    border-bottom: 1px solid #2B2B2B;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 90%;
+    margin-left: 5%;
+    user-select: none;
+}
+
+.denuncias-group{
+    display: grid;
+    grid-template-columns: 40% 40%;
+    grid-gap: 10%;
+    margin-left: 10%;
+    user-select: none;
+}
+
+.denuncias-anuncio-group div h2{
+    margin-bottom: 0;
+}
+
+.denuncias-anuncio-group div i{
+    margin-left: 10px;
+    font-size: 1.3rem;
+}
