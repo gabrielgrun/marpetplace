@@ -106,6 +106,10 @@ body {
     max-width: 500px;
 }
 
+.container-anuncio .foto{
+    min-height: 500px;
+}
+
 .minor-foto {
     min-width: 100px;
 }

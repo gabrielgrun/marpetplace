@@ -6,6 +6,7 @@ import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.DenunciaRequest;
+import marpetplace.api.dto.response.AnuncioWithDenunciasResponse;
 import marpetplace.api.dto.response.DenunciaDetailedResponse;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.AnuncioRepository;
@@ -14,10 +15,8 @@ import marpetplace.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DenunciaServiceImpl implements DenunciaService {
@@ -65,14 +64,17 @@ public class DenunciaServiceImpl implements DenunciaService {
 
     @Override
     @Transactional
-    public List<DenunciaDetailedResponse> getAll() {
-        List<DenunciaDetailedResponse> denunciasResponse = new ArrayList<>();
+    public List<AnuncioWithDenunciasResponse> getAll() {
         List<Denuncia> denuncias = denunciaRepository.findAll();
-        denuncias.forEach(denuncia -> {
-            denunciasResponse.add(new DenunciaDetailedResponse(denuncia));
-        });
 
-        return denunciasResponse;
+        Map<Anuncio, List<Denuncia>> denunciasWithAnuncio = denuncias.stream()
+                .collect(Collectors.groupingBy(Denuncia::getAnuncio));
+
+        List<AnuncioWithDenunciasResponse> anunciosWithDenuncias = denunciasWithAnuncio.entrySet().stream()
+                .map(entry -> new AnuncioWithDenunciasResponse(entry.getKey(), entry.getValue()))
+                .toList();
+
+        return anunciosWithDenuncias;
     }
 
     @Override

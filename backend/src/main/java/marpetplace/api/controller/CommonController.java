@@ -20,13 +20,13 @@ public class CommonController {
     @Autowired
     AnuncioService anuncioService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/anuncios/{id}")
     public ResponseEntity getById(@PathVariable UUID id) {
         Anuncio anuncio = anuncioService.getById(id);
         return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
     }
 
-    @GetMapping("/ativos")
+    @GetMapping("/anuncios/ativos")
     public ResponseEntity getActives(@RequestParam(required = false) Raca raca,
                                      @RequestParam(required = false) Porte porte,
                                      @RequestParam(required = false) Tipo tipo) {

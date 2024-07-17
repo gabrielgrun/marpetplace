@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -40,6 +41,14 @@ public class AnuncioServiceImpl implements AnuncioService {
     @Transactional
     public Anuncio register(UUID idUsuario, AnuncioRequest anuncioRequest) {
         Anuncio anuncio = new Anuncio(anuncioRequest);
+
+        try {
+            if (anuncioRequest.foto() != null) {
+                anuncio.setFoto(anuncioRequest.foto().getBytes());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(idUsuario);
         if(usuarioOptional.isEmpty()){
@@ -132,7 +141,7 @@ public class AnuncioServiceImpl implements AnuncioService {
         }
 
         List<Anuncio> anuncios = anuncioRepository.findByUsuarioAndStatusNotIn(usuarioOptional.get(),
-                List.of(AnuncioStatus.EXCLUIDO, AnuncioStatus.DENUNCIADO));
+                List.of(AnuncioStatus.EXCLUIDO, AnuncioStatus.RECURSO));
         anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
             anunciosResponse.add(new AnuncioDetailedResponse(anuncio));

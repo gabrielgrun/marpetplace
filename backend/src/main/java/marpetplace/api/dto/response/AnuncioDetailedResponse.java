@@ -4,9 +4,10 @@ import marpetplace.api.domain.*;
 import marpetplace.api.domain.entity.Anuncio;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.UUID;
 
-public record AnuncioDetailedResponse(UUID id, String nome, String descricao, byte[] foto, Porte porte, Sexo sexo,
+public record AnuncioDetailedResponse(UUID id, String nome, String descricao, String foto, Porte porte, Sexo sexo,
                                       boolean castrado, boolean vacinado, String contato, Tipo tipo, Raca raca,
                                       AnuncioStatus anuncioStatus, LocalDateTime dataCriacao,
                                       UsuarioDetailedResponse usuario) {
@@ -15,7 +16,7 @@ public record AnuncioDetailedResponse(UUID id, String nome, String descricao, by
         this(anuncio.getId(),
         anuncio.getNome(),
         anuncio.getDescricao(),
-        anuncio.getFoto(),
+        Base64.getEncoder().encodeToString(anuncio.getFoto()),
         anuncio.getPorte(),
         anuncio.getSexo(),
         anuncio.isCastrado(),

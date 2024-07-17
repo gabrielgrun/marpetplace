@@ -79,12 +79,6 @@ public class AdminController {
 
     //ANÚNCIOS
 
-    /*@GetMapping("/usuarios/{id}")
-    public ResponseEntity getById(@PathVariable UUID id) {
-        Anuncio anuncio = anuncioService.getById(id);
-        return ResponseEntity.ok(new AnuncioDetailedResponse(anuncio));
-    }*/
-
     @GetMapping("/anuncios")
     public ResponseEntity get(@RequestParam(required = false) Raca raca,
                               @RequestParam(required = false) Porte porte,
@@ -115,7 +109,7 @@ public class AdminController {
 
     @GetMapping("/denuncias/list-all")
     public ResponseEntity getAllDenuncias(){
-        List<DenunciaDetailedResponse> denuncias = denunciaService.getAll();
+        List<AnuncioWithDenunciasResponse> denuncias = denunciaService.getAll();
         return ResponseEntity.ok((denuncias));
     }
 

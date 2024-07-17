@@ -9,6 +9,7 @@ import marpetplace.api.domain.*;
 import marpetplace.api.dto.request.AnuncioRequest;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -74,7 +75,11 @@ public class Anuncio {
     public Anuncio(AnuncioRequest anuncioRequest) {
         this.nome = anuncioRequest.nome();
         this.descricao = anuncioRequest.descricao();
-        this.foto = anuncioRequest.foto().getBytes(StandardCharsets.UTF_8);
+        try {
+            this.foto = anuncioRequest.foto().getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.porte = anuncioRequest.porte();
         this.sexo = anuncioRequest.sexo();
         this.castrado = anuncioRequest.castrado();
