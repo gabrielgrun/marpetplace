@@ -208,6 +208,12 @@ public class AnuncioServiceImpl implements AnuncioService {
     public Anuncio changeStatus(UUID id, AnuncioStatus status) {
         Anuncio anuncio = getById(id);
 
+        if(status.equals(AnuncioStatus.OCULTADO)){
+            if (anuncio.getStatus().equals(AnuncioStatus.DENUNCIADO)) {
+                throw new RecordNotFoundException();
+            }
+        }
+
         if (anuncio.getStatus().equals(AnuncioStatus.EXCLUIDO)) {
             throw new RecordNotFoundException();
         }

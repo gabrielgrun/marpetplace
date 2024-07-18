@@ -6,8 +6,10 @@ import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.DenunciaRequest;
+import marpetplace.api.dto.response.AnuncioSimplifiedResponse;
 import marpetplace.api.dto.response.AnuncioWithDenunciasResponse;
 import marpetplace.api.dto.response.DenunciaDetailedResponse;
+import marpetplace.api.dto.response.DenunciaSimplifiedResponse;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.AnuncioRepository;
 import marpetplace.api.repository.DenunciaRepository;
@@ -67,9 +69,17 @@ public class DenunciaServiceImpl implements DenunciaService {
     public List<AnuncioWithDenunciasResponse> getAll() {
         List<Denuncia> denuncias = denunciaRepository.findAll();
 
-        Map<Anuncio, List<Denuncia>> denunciasWithAnuncio = denuncias.stream()
+        Map<Anuncio, List<Denuncia>> denunciasGroupedByAnuncio = denuncias.stream()
                 .collect(Collectors.groupingBy(Denuncia::getAnuncio));
 
+        Map<AnuncioSimplifiedResponse, List<DenunciaSimplifiedResponse>> denunciasWithAnuncio = denunciasGroupedByAnuncio.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> new AnuncioSimplifiedResponse(entry.getKey()),
+                        entry -> entry.getValue().stream()
+                                .map(DenunciaSimplifiedResponse::new)
+                                .collect(Collectors.toList())
+                ));
+        
         List<AnuncioWithDenunciasResponse> anunciosWithDenuncias = denunciasWithAnuncio.entrySet().stream()
                 .map(entry -> new AnuncioWithDenunciasResponse(entry.getKey(), entry.getValue()))
                 .toList();

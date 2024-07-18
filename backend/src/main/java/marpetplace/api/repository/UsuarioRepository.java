@@ -20,7 +20,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             "FROM Usuario u " +
             "JOIN Anuncio a ON u.id = a.usuario.id " +
             "JOIN Denuncia d ON a.id = d.anuncio.id " +
-            "GROUP BY u.nome, u.email " +
+            "WHERE u.status = marpetplace.api.domain.UsuarioStatus.ATIVO " +
+            "GROUP BY u.id, u.nome, u.email " +
             "ORDER BY COUNT(d.id) DESC")
     List<UsuarioDenunciaDto> findMostReportedUsuarios();
     List<Usuario> findByStatus(UsuarioStatus usuarioStatus);

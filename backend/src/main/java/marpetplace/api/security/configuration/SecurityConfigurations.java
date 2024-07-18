@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,6 +43,7 @@ public class SecurityConfigurations {
                         .authorizeHttpRequests(req -> {
                             req.requestMatchers("/usuarios/login").permitAll();
                             req.requestMatchers("/admin/login").permitAll();
+                            req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
                             req.requestMatchers("/admin/**").hasRole("ADMIN");
                             req.requestMatchers("/usuarios/**").hasRole("USER");
                             req.requestMatchers("/common/**").hasAnyRole("ADMIN", "USER");

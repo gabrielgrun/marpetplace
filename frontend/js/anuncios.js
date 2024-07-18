@@ -1,3 +1,5 @@
+import { fetchGetRequest } from '../js/requests.js';
+
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
@@ -6,41 +8,13 @@ function init() {
 
 async function loadAnuncio(){
     const anuncioId = getIdFromUrl();
-    const data = await fetchAnuncioById(anuncioId, localStorage.getItem('userToken'));
+    const data = await fetchGetRequest(`/api/common/anuncios/${anuncioId}`, localStorage.getItem('userToken'));
     fillAnuncioInfo(data);
 }
 
 function getIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id');
-}
-
-async function fetchAnuncioById(id, token) {
-    const url = `/api/common/anuncios/${id}`;
-    
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            if(response.status == 403){
-                //TODO: Verificar o que fazer com permissao (vou criar uma pagina?)
-                throw new Error('a');    
-            }
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-
-        const data = await response.json();
-        console.log('Anuncio:', data);
-        return data;
-    } catch (error) {
-        console.error('Houve um problema com a requisição:', error);
-    }
 }
 
 function fillAnuncioInfo(data){

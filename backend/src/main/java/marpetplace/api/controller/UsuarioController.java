@@ -5,7 +5,7 @@ import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.domain.entity.Recurso;
 import marpetplace.api.domain.entity.Usuario;
-import marpetplace.api.dto.LoginRequest;
+import marpetplace.api.dto.request.LoginRequest;
 import marpetplace.api.dto.request.AnuncioRequest;
 import marpetplace.api.dto.request.DenunciaRequest;
 import marpetplace.api.dto.request.RecursoRequest;

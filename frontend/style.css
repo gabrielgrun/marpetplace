@@ -362,6 +362,12 @@ body {
     width: 350px;
 }
 
+.card-denuncia p{
+    min-width: 380px;
+    min-height: 105px;
+    overflow: hidden;
+}
+
 .grid-recurso{
     display: grid;
     grid-template-columns: 30% 30% 30%;
