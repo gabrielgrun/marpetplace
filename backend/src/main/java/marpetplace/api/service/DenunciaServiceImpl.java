@@ -79,7 +79,7 @@ public class DenunciaServiceImpl implements DenunciaService {
                                 .map(DenunciaSimplifiedResponse::new)
                                 .collect(Collectors.toList())
                 ));
-        
+
         List<AnuncioWithDenunciasResponse> anunciosWithDenuncias = denunciasWithAnuncio.entrySet().stream()
                 .map(entry -> new AnuncioWithDenunciasResponse(entry.getKey(), entry.getValue()))
                 .toList();

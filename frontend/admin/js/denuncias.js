@@ -1,4 +1,4 @@
-import { fetchGetRequest } from '../../js/requests.js';
+import APIClient from '../../js/APIClient.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -7,7 +7,9 @@ function init() {
 }
 
 async function loadDenuncias() {
-    const data = await fetchGetRequest('/api/admin/denuncias/list-all', localStorage.getItem('adminToken'));
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
+    const data = await apiClient.get('/api/admin/denuncias/list-all');
     console.log(data)
     await fillDenunciasInfo(data);
 }

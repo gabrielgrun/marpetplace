@@ -1,4 +1,4 @@
-import { fetchGetRequest } from '../js/requests.js';
+import APIClient from '../js/APIClient.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -7,8 +7,10 @@ function init() {
 }
 
 async function loadAnuncio(){
+    const token = localStorage.getItem('userToken');
+    const apiClient = new APIClient(token);
     const anuncioId = getIdFromUrl();
-    const data = await fetchGetRequest(`/api/common/anuncios/${anuncioId}`, localStorage.getItem('userToken'));
+    const data = await apiClient.get(`/api/common/anuncios/${anuncioId}`);
     fillAnuncioInfo(data);
 }
 

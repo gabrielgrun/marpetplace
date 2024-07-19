@@ -87,9 +87,9 @@ public class UsuarioController {
 
     // ANÚNCIOS
 
-    @PostMapping("/{idUsuario}/anuncios")
+    @PostMapping(value = "/{idUsuario}/anuncios", consumes = {"multipart/form-data"})
     public ResponseEntity createAnuncio(@PathVariable UUID idUsuario,
-                                   @RequestBody @Valid AnuncioRequest anuncioRequest, UriComponentsBuilder uriBuilder){
+                                   @ModelAttribute @Valid AnuncioRequest anuncioRequest, UriComponentsBuilder uriBuilder){
         Anuncio anuncio = anuncioService.register(idUsuario, anuncioRequest);
         var uri = uriBuilder.path("/anuncios/{id}").buildAndExpand(anuncio.getId()).toUri();
         return ResponseEntity.created(uri).body(new AnuncioDetailedResponse(anuncio));

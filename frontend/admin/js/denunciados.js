@@ -1,4 +1,4 @@
-import { fetchGetRequest, fetchDeleteRequest } from '../../js/requests.js';
+import APIClient from '../../js/APIClient.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -7,7 +7,9 @@ function init() {
 }
 
 async function loadDenunciados(){
-    const data = await fetchGetRequest('/api/admin/usuarios/mais-denunciados', localStorage.getItem('adminToken'));
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
+    const data = await apiClient.get('/api/admin/usuarios/mais-denunciados');
     console.log(data)
     await fillDenunciadosInfo(data);
     bindBtnDesativar();
@@ -49,7 +51,9 @@ function bindBtnDesativar(){
 }
 
 async function inactivateUser(e){
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
     const id = e.target.id;
-    await fetchDeleteRequest(`/api/admin/usuarios/${id}`, localStorage.getItem('adminToken'));
+    await apiClient.delete(`/api/admin/usuarios/${id}`);
     loadDenunciados();
 }

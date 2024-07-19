@@ -1,4 +1,4 @@
-import { fetchGetRequest, fetchPatchRequest } from '../../js/requests.js';
+import APIClient from '../../js/APIClient.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -6,13 +6,15 @@ function init() {
     loadDesativados();
 }
 
-async function loadDesativados(){
-    const data = await fetchGetRequest('/api/admin/usuarios/inativos', localStorage.getItem('adminToken'));
+async function loadDesativados() {
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
+    const data = await apiClient.get('/api/admin/usuarios/inativos',);
     await fillDesativadosInfo(data);
     bindBtnReativar();
 }
 
-async function fillDesativadosInfo(data){
+async function fillDesativadosInfo(data) {
     const tableAdmin = document.querySelector(".table-admin");
     tableAdmin.innerHTML = `
     <div class="d-flex align-items-center justify-content-between">
@@ -25,7 +27,7 @@ async function fillDesativadosInfo(data){
 
 }
 
-function fillData(data){
+function fillData(data) {
     let html = '';
     for (let i = 0; i < data.length; i++) {
         const row = data[i];
@@ -38,7 +40,7 @@ function fillData(data){
     return html;
 }
 
-function bindBtnReativar(){
+function bindBtnReativar() {
     let elements = document.querySelectorAll('.btn-reativar');
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
@@ -46,8 +48,10 @@ function bindBtnReativar(){
     }
 }
 
-async function reactivateUser(e){
+async function reactivateUser(e) {
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
     const id = e.target.id;
-    await fetchPatchRequest(`/api/admin/usuarios/${id}/ativar`, localStorage.getItem('adminToken'));
+    await apiClient.patch(`/api/admin/usuarios/${id}/ativar`);
     loadDesativados();
 }

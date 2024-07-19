@@ -127,18 +127,18 @@
                     <div class="container-select-cadastro">
                         <label class="form-check-label labelCaracteristicas">Características</label>
                         <div class=" d-flex justify-content-between">
-                            <select class="form-select" aria-label="Default select example">
+                            <select id="selectPorte" class="form-select" aria-label="Default select example">
                                 <option selected>Porte</option>
                                 <option value="P">P</option>
                                 <option value="M">M</option>
                                 <option value="G">G</option>
                             </select>
-                            <select class="form-select" aria-label="Default select example">
+                            <select id="selectTipo" class="form-select" aria-label="Default select example">
                                 <option selected>Tipo</option>
                                 <option value="GATO">Gato</option>
                                 <option value="CACHORRO">Cachorro</option>
                             </select>
-                            <select class="form-select" aria-label="Default select example">
+                            <select id="selectSexo" class="form-select" aria-label="Default select example">
                                 <option selected>Sexo</option>
                                 <option value="M">Macho</option>
                                 <option value="F">Fêmea</option>
@@ -155,8 +155,8 @@
                         <label class="form-check-label" for="checkboxVacinado">Vacinado</label>
                     </div>
                     <div class="d-flex justify-content-evenly btn-group">
-                        <button class="btn-cadastro">Ocultar anúncio</button>
-                        <button class="btn-cadastro">Salvar</button>
+                        <button id="btn-ocultar" class="btn-cadastro">Ocultar anúncio</button>
+                        <button id="btn-salvar" class="btn-cadastro">Salvar</button>
                     </div>
                 </div>
             </form>
@@ -164,8 +164,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        <script src="js/user.js"></script>
-        <script src="js/cadastro-anuncio.js"></script>
+        <script type="module" src="js/user.js"></script>
+        <script type="module" src="js/cadastro-anuncio.js"></script>
 </body>
 
 </html>
