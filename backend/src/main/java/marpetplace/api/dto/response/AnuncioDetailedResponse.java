@@ -9,8 +9,7 @@ import java.util.UUID;
 
 public record AnuncioDetailedResponse(UUID id, String nome, String descricao, String foto, Porte porte, Sexo sexo,
                                       boolean castrado, boolean vacinado, String contato, Tipo tipo, Raca raca,
-                                      AnuncioStatus anuncioStatus, LocalDateTime dataCriacao,
-                                      UsuarioDetailedResponse usuario) {
+                                      AnuncioStatus anuncioStatus) {
 
     public AnuncioDetailedResponse(Anuncio anuncio){
         this(anuncio.getId(),
@@ -24,9 +23,7 @@ public record AnuncioDetailedResponse(UUID id, String nome, String descricao, St
         anuncio.getContato(),
         anuncio.getTipo(),
         anuncio.getRaca(),
-        anuncio.getStatus(),
-        anuncio.getDataCriacao(),
-        new UsuarioDetailedResponse(anuncio.getUsuario()));
+        anuncio.getStatus());
     }
 
 }

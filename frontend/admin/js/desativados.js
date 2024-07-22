@@ -9,7 +9,7 @@ function init() {
 async function loadDesativados() {
     const token = localStorage.getItem('adminToken');
     const apiClient = new APIClient(token);
-    const data = await apiClient.get('/api/admin/usuarios/inativos',);
+    const data = await apiClient.get('/api/admin/usuarios/inativos');
     await fillDesativadosInfo(data);
     bindBtnReativar();
 }

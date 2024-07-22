@@ -5,6 +5,7 @@ import marpetplace.api.domain.Porte;
 import marpetplace.api.domain.Raca;
 import marpetplace.api.domain.Tipo;
 import marpetplace.api.domain.entity.Admin;
+import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.LoginRequest;
 import marpetplace.api.dto.response.*;
@@ -84,6 +85,12 @@ public class AdminController {
                               @RequestParam(required = false) Tipo tipo) {
         List<AnuncioDetailedResponse> anuncios = anuncioService.getAnuncios(raca, porte, tipo);
         return ResponseEntity.ok((anuncios));
+    }
+
+    @GetMapping("/anuncios/{id}")
+    public ResponseEntity getWithDenunciasById(@PathVariable UUID id) {
+        AnuncioDetailedWithDenunciasResponse withDenunciasById = anuncioService.getWithDenunciasById(id);
+        return ResponseEntity.ok(withDenunciasById);
     }
 
     @DeleteMapping("/{id}")

@@ -7,6 +7,8 @@ import marpetplace.api.domain.Tipo;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.dto.request.AnuncioRequest;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
+import marpetplace.api.dto.response.AnuncioDetailedWithDenunciasResponse;
+import marpetplace.api.dto.response.AnuncioWithFotoResponse;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,5 +26,6 @@ public interface AnuncioService {
     Anuncio report(UUID id);
     List<AnuncioDetailedResponse> getReportedByUsuario(UUID idUsuario);
     List<AnuncioDetailedResponse> getAnuncios(Raca raca, Porte porte, Tipo tipo);
-    List<AnuncioDetailedResponse> getAnunciosAtivos(Raca raca, Porte porte, Tipo tipo);
+    List<AnuncioWithFotoResponse> getAnunciosAtivos(Raca raca, Porte porte, Tipo tipo);
+    AnuncioDetailedWithDenunciasResponse getWithDenunciasById(UUID id);
 }

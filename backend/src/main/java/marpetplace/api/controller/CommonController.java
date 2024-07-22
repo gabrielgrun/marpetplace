@@ -5,6 +5,7 @@ import marpetplace.api.domain.Raca;
 import marpetplace.api.domain.Tipo;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
+import marpetplace.api.dto.response.AnuncioWithFotoResponse;
 import marpetplace.api.service.AnuncioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class CommonController {
     public ResponseEntity getActives(@RequestParam(required = false) Raca raca,
                                      @RequestParam(required = false) Porte porte,
                                      @RequestParam(required = false) Tipo tipo) {
-        List<AnuncioDetailedResponse> anuncios = anuncioService.getAnunciosAtivos(raca, porte, tipo);
+        List<AnuncioWithFotoResponse> anuncios = anuncioService.getAnunciosAtivos(raca, porte, tipo);
         return ResponseEntity.ok((anuncios));
     }
 }

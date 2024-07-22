@@ -9,12 +9,15 @@ import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.AnuncioRequest;
+import marpetplace.api.dto.response.AnuncioDetailedResponse;
+import marpetplace.api.dto.response.AnuncioDetailedWithDenunciasResponse;
+import marpetplace.api.dto.response.AnuncioWithFotoResponse;
+import marpetplace.api.dto.response.DenunciaSimplifiedResponse;
 import marpetplace.api.email.EmailService;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.AnuncioRepository;
 import marpetplace.api.repository.DenunciaRepository;
 import marpetplace.api.repository.UsuarioRepository;
-import marpetplace.api.dto.response.AnuncioDetailedResponse;
 import marpetplace.api.specification.AnuncioSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AnuncioServiceImpl implements AnuncioService {
@@ -29,12 +33,15 @@ public class AnuncioServiceImpl implements AnuncioService {
     private final AnuncioRepository anuncioRepository;
     private final UsuarioRepository usuarioRepository;
     private final EmailService emailSender;
+    private final DenunciaRepository denunciaRepository;
 
     @Autowired
-    public AnuncioServiceImpl(AnuncioRepository anuncioRepository, UsuarioRepository usuarioRepository, EmailService emailSender) {
+    public AnuncioServiceImpl(AnuncioRepository anuncioRepository, UsuarioRepository usuarioRepository, EmailService emailSender,
+                              DenunciaRepository denunciaRepository) {
         this.anuncioRepository = anuncioRepository;
         this.usuarioRepository = usuarioRepository;
         this.emailSender = emailSender;
+        this.denunciaRepository = denunciaRepository;
     }
 
     @Override
@@ -171,8 +178,8 @@ public class AnuncioServiceImpl implements AnuncioService {
 
     @Override
     @Transactional
-    public List<AnuncioDetailedResponse> getAnunciosAtivos(Raca raca, Porte porte, Tipo tipo) {
-        List<AnuncioDetailedResponse> anunciosResponse = new ArrayList<>();
+    public List<AnuncioWithFotoResponse> getAnunciosAtivos(Raca raca, Porte porte, Tipo tipo) {
+        List<AnuncioWithFotoResponse> anunciosResponse = new ArrayList<>();
         Specification<Anuncio> spec = Specification.where(AnuncioSpecification.isAtivo())
                 .and(AnuncioSpecification.hasRaca(raca))
                 .and(AnuncioSpecification.hasPorte(porte))
@@ -181,10 +188,26 @@ public class AnuncioServiceImpl implements AnuncioService {
 
         anuncios.sort(Comparator.comparing(Anuncio::getDataCriacao).reversed());
         anuncios.forEach(anuncio -> {
-            anunciosResponse.add(new AnuncioDetailedResponse(anuncio));
+            anunciosResponse.add(new AnuncioWithFotoResponse(anuncio));
         });
 
         return anunciosResponse;
+    }
+
+    @Override
+    public AnuncioDetailedWithDenunciasResponse getWithDenunciasById(UUID id) {
+        Anuncio anuncio = anuncioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Anúncio não encontrado"));
+
+        List<Denuncia> denuncias = denunciaRepository.findByAnuncio_Id(id);
+
+        AnuncioDetailedResponse anuncioDetailed = new AnuncioDetailedResponse(anuncio);
+
+        List<DenunciaSimplifiedResponse> denunciasSimplified = denuncias.stream()
+                .map(DenunciaSimplifiedResponse::new)
+                .collect(Collectors.toList());
+
+        return new AnuncioDetailedWithDenunciasResponse(anuncioDetailed, denunciasSimplified);
     }
 
     @Override

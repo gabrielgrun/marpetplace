@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
-    bindHome();
+    bindAtivos();
     bindDenuncias();
     bindDesativados();
     bindDenunciados();
 }
 
-function bindHome(){
-    const home = document.getElementById("home");
-    home.addEventListener("click", function () {
+function bindAtivos(){
+    const ativos = document.getElementById("ativos");
+    ativos.addEventListener("click", function () {
         const origin = window.location.origin;
         window.location.href = `${origin}/admin/ativos.html`;
     });
