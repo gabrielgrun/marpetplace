@@ -7,7 +7,7 @@ function init() {
 }
 
 async function loadAtivos() {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem('userToken');
     const apiClient = new APIClient(token);
     const data = await apiClient.get('/api/common/anuncios/ativos');
     await fillAtivosInfo(data);
@@ -19,7 +19,7 @@ async function fillAtivosInfo(data){
     let html;
     html = data.map(anuncio => {
         return `
-        <a href="/admin/anuncios.html?id=${anuncio.id}">
+        <a href="/anuncios.html?id=${anuncio.id}">
         <div id="${anuncio.id}" class="container-fluid d-flex animal-card">
                     <div class="d-flex container-foto">
                         <img class="foto minor-foto"
@@ -49,7 +49,7 @@ async function bindSelects(){
 }
 
 async function applyFilter(){
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem('userToken');
     const apiClient = new APIClient(token);
     const tipo = document.querySelector('#tipo').value;
     const raca = document.querySelector('#raca').value;

@@ -17,40 +17,50 @@
 <body>
     <header>
         <div class="container-fluid d-flex justify-content-between align-items-center background-color-primary header">
-            <div id="home" class="d-flex align-items-center pointer" title="Home">
+            <div id="home" class="d-flex align-items-center" title="Home">
                 <i class="fa-solid fa-shield-dog header-icon"></i>
                 <h1>MarPetplace</h1>
             </div>
-            <div class="d-flex align-items-center pointer" title="Área administrativa">
+            <div class="d-flex align-items-center" title="Área administrativa">
                 <h1>Área administrativa</h1>
-                <i class="fa-solid fa-right-from-bracket header-icon logout" title="Logout"></i>
+                <i class="fa-solid fa-right-from-bracket header-icon logout pointer" title="Logout"></i>
             </div>
         </div>
     </header>
     <section class="height-main background-color-secondary container-fluid d-flex">
         <section class="d-flex flex-column side-menu">
-            <div id="ativos" class="d-flex align-items-center justify-content-center ">
-                <i class="fa-solid fa-check"></i>
-                <p>Ativos</p>
-            </div>
-            <div id="denuncias" class="d-flex align-items-center justify-content-center active">
-                <i class="fa-solid fa-circle-exclamation"></i>
-                <p>Denúncias</p>
-            </div>
-            <div id="recursos" class="d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-eye"></i>
-                <p>Recursos</p>
-            </div>
-            <div id="denunciados" class="d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <p>Denunciados</p>
-            </div>
-            <div id="desativados" class="d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-user-slash"></i>
-                <p>Desativados</p>
-            </div>
+            <a href="/admin/ativos.html">
+                <div id="ativos" class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-check"></i>
+                    <p>Ativos</p>
+                </div>
+            </a>
+            <a href="/admin/denuncias.html">
+                <div id="denuncias" class="d-flex align-items-center justify-content-center active">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <p>Denúncias</p>
+                </div>
+            </a>
+            <a href="/admin/recursos.html">
+                <div id="recursos" class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-eye"></i>
+                    <p>Recursos</p>
+                </div>
+            </a>
+            <a href="/admin/denunciados.html">
+                <div id="denunciados" class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <p>Denunciados</p>
+                </div>
+            </a>
+            <a href="/admin/desativados.html">
+                <div id="desativados" class="d-flex align-items-center justify-content-center">
+                    <i class="fa-solid fa-user-slash"></i>
+                    <p>Desativados</p>
+                </div>
+            </a>
         </section>
-        <section>
+        <section class="container-fluid">
             <div class="container-denuncias container-fluid">
                 <div class="denuncias-anuncio-group d-flex align-items-center justify-content-between"
                     data-bs-toggle="collapse" href="#demo" aria-expanded="false">
@@ -113,7 +123,6 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script type="module" src="js/admin.js"></script>
     <script type="module" src="js/denuncias.js"></script>
 </body>
 

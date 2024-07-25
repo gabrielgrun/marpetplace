@@ -16,61 +16,37 @@
 <body>
     <header>
         <div class="container-fluid d-flex justify-content-between align-items-center background-color-primary header">
-            <div id="home" class="d-flex align-items-center pointer" title="Home">
-                <i class="fa-solid fa-shield-dog header-icon"></i>
-                <h1>MarPetplace</h1>
-            </div>
-            <div class="d-flex align-items-center pointer" title="Minha área">
-                <div id="minhaArea" class="d-flex align-items-center">
-                    <i class="fa-solid fa-person header-icon"></i>
-                    <h1>Minha área</h1>
+            <a href="/index.html">
+                <div id="home" class="d-flex align-items-center pointer" title="Home">
+                    <i class="fa-solid fa-shield-dog header-icon"></i>
+                    <h1>MarPetplace</h1>
                 </div>
-                <i class="fa-solid fa-right-from-bracket header-icon logout" title="Logout"></i>
-            </div>
+            </a>
+            <a href="/cadastro-anuncio.html">
+                <div class="d-flex align-items-center pointer" title="Minha área">
+                    <div id="minhaArea" class="d-flex align-items-center">
+                        <i class="fa-solid fa-person header-icon"></i>
+                        <h1>Minha área</h1>
+                    </div>
+                    <i class="fa-solid fa-right-from-bracket header-icon logout" title="Logout"></i>
+                </div>
+            </a>
         </div>
     </header>
     <section class="height-main background-color-secondary">
         <div class="container-fluid d-flex justify-content-center">
-            <h1 class="looking-for-home">Oi, eu sou o Bart</h1>
+            <h1 class="looking-for-home"></h1>
         </div>
         <div>
             <div class="container d-flex container-anuncio">
-                <div class="d-flex">
-                    <img class="foto"
-                        src="https://img.freepik.com/fotos-premium/ia-generativa-de-cachorro-estilo-pixar-bebe-super-fofo_431161-2025.jpg"
-                        alt="">
-                </div>
-                <div class="d-flex flex-column info-anuncio">
-                    <div class="d-flex flex-column justify-content-between info-anuncio-main">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p>Raça: Vira-lata</p>
-                            <div class="anuncio-icons">
-                                <i class="fa-solid fa-mars"></i>
-                                <i class="fa-solid fa-syringe"></i>
-                            </div>
-                        </div>
-                        <p>Porte: M</p>
-                        <p><i class="fa-solid fa-phone"></i>55999024642</p>
-                    </div>
-                    <p class="info-anuncio-description">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-                        of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-                        but also the leap into electronic typesetting, remaining essentially unchanged. It was
-                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                        and more recently with desktop publishing software like Aldus PageMaker including versions of
-                        Lorem Ipsum
-                    </p>
-                </div>
             </div>
         </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-    <script type="module" src="js/user.js"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script type="module" src="js/anuncios.js"></script>
-    
+
 </body>
 
 </html>

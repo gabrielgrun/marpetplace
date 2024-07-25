@@ -32,7 +32,7 @@ function fillAnuncioInfo(data){
                         src="data:image/jpeg;base64,${data.foto}"
                         alt="">
                 </div>
-                <div class="d-flex flex-column info-anuncio">
+                <div class="container-fluid d-flex flex-column info-anuncio">
                     <div class="d-flex flex-column justify-content-between info-anuncio-main">
                         <div class="d-flex justify-content-between align-items-center">
                             <p>Raça: ${raca}</p>
@@ -42,6 +42,7 @@ function fillAnuncioInfo(data){
                         </div>
                         <p>Porte: ${data.porte}</p>
                         <p><i class="fa-solid fa-phone"></i>${formatPhone(data.contato)}</p>
+                        <p>${data.castrado ? "Castrado" : "Não-castrado"}</p>
                     </div>
                     <p class="info-anuncio-description">
                         ${data.descricao}
@@ -60,13 +61,15 @@ function getSexoAndVacinado(data){
     let sexo = '';
     let vacinado = '';
     if(data.sexo === 'M'){
-        sexo = `<i class="fa-solid fa-mars"></i>`;
+        sexo = `<i title="Macho" class="fa-solid fa-mars"></i>`;
     } else {
-        sexo = `<i class="fa-solid fa-venus"></i>`;
+        sexo = `<i title="Fêmea" class="fa-solid fa-venus"></i>`;
     }
 
     if(data.vacinado){
-        vacinado = `<i class="fa-solid fa-syringe"></i>`;
+        vacinado = `<i title="Vacinado" class="fa-solid fa-syringe"></i>`;
+    } else {
+        vacinado = `<i title="Não-vacinado" style="color:#b1b1b1" class="fa-solid fa-syringe"></i>`;
     }
 
     return sexo + vacinado;

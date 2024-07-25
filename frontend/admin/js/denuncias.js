@@ -10,7 +10,6 @@ async function loadDenuncias() {
     const token = localStorage.getItem('adminToken');
     const apiClient = new APIClient(token);
     const data = await apiClient.get('/api/admin/denuncias/list-all');
-    console.log(data)
     await fillDenunciasInfo(data);
 }
 
@@ -22,7 +21,9 @@ async function fillDenunciasInfo(data) {
                     data-bs-toggle="collapse" href="#collapse-${current.anuncio.id}" aria-expanded="false">
                     <div class="d-flex align-items-center">
                         <h2>${current.anuncio.nome}</h2>
-                        <i id="${current.anuncio.id}" title="Acessar anúncio" class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <a href="/admin/anuncios.html?id=${current.anuncio.id}">
+                            <i id="${current.anuncio.id}" title="Acessar anúncio" class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
                     </div>
                     <i class="fa-solid fa-chevron-up"></i>
                 </div>

@@ -83,13 +83,19 @@ body {
 
 .animal-card .infos h1 {
     font-weight: bold;
-    margin: 0 0 10px;
-    font-size: 2rem;
+    margin: 5px;
+    font-size: 1.3rem;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .animal-card .infos p {
     margin: 0px 0px 5px 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .container-foto {
@@ -109,10 +115,6 @@ body {
 
 .container-anuncio .foto{
     min-height: 500px;
-}
-
-.minor-foto {
-    min-width: 100px;
 }
 
 .grid {
@@ -423,6 +425,7 @@ body {
     grid-gap: 10%;
     margin-left: 10%;
     user-select: none;
+    padding-bottom: 5px;
 }
 
 .denuncias-anuncio-group div h2{
