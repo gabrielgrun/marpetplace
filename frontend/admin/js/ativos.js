@@ -28,9 +28,9 @@ async function fillAtivosInfo(data){
                     </div>
                     <div class="d-flex flex-column justify-content-center infos">
                         <div class="d-flex justify-content-center align-items-center">
-                            <h1>${anuncio.nome}</h1>
+                            <h1 title="${anuncio.nome}">${anuncio.nome}</h1>
                         </div>
-                        <p>Raça: ${normalizeRaca(anuncio.raca)}</p>
+                        <p title="${normalizeRaca(anuncio.raca)}">Raça: ${normalizeRaca(anuncio.raca)}</p>
                         <p>Porte: ${anuncio.porte}</p>
                         <p>${anuncio.sexo === 'M' ? 'Macho' : 'Fêmea'}</p>
                     </div>
