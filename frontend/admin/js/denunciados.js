@@ -10,7 +10,6 @@ async function loadDenunciados(){
     const token = localStorage.getItem('adminToken');
     const apiClient = new APIClient(token);
     const data = await apiClient.get('/api/admin/usuarios/mais-denunciados');
-    console.log(data)
     await fillDenunciadosInfo(data);
     bindBtnDesativar();
 }

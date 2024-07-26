@@ -34,6 +34,7 @@ async function fillAtivosInfo(data){
                         <p>Porte: ${anuncio.porte}</p>
                         <p>${anuncio.sexo === 'M' ? 'Macho' : 'Fêmea'}</p>
                     </div>
+                    <i class="fa-solid fa-circle-exclamation danger"></i>
                 </div>
                 </a>`
     }).join('');

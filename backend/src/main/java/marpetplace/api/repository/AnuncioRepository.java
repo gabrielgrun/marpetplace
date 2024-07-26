@@ -22,4 +22,5 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, UUID>, JpaSpec
 
     @Query("SELECT a FROM Anuncio a WHERE a.usuario.id = :usuarioId AND a.status = 'DENUNCIADO'")
     List<Anuncio> findAnunciosDenunciadosByUsuarioId(@Param("usuarioId") UUID usuarioId);
+    List<Anuncio> findByStatusIn(List<AnuncioStatus> status);
 }

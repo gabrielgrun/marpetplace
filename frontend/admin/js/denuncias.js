@@ -11,6 +11,7 @@ async function loadDenuncias() {
     const apiClient = new APIClient(token);
     const data = await apiClient.get('/api/admin/denuncias/list-all');
     await fillDenunciasInfo(data);
+    await bindBtns();
 }
 
 async function fillDenunciasInfo(data) {
@@ -25,7 +26,7 @@ async function fillDenunciasInfo(data) {
                             <i id="${current.anuncio.id}" title="Acessar anúncio" class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
-                    <i class="fa-solid fa-chevron-up"></i>
+                    <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div id="collapse-${current.anuncio.id}" class="denuncias-group collapse">
                     ${fillEveryDenuncia(current.denuncias)}
@@ -42,10 +43,39 @@ function fillEveryDenuncia(denuncias) {
                     <div class="card-recurso card-denuncia container-fluid d-flex flex-column">
                         <p>${denuncia.motivo}</p>
                         <div class="btn-group-recurso container-fluid d-flex justify-content-evenly">
-                            <button idDenuncia="${denuncia.id}" type="button" class="btn-desativar">Recusar</button>
-                            <button idDenuncia="${denuncia.id}" type="button" class="btn btn-primary btn-reativar">Aceitar</button>
+                            <button data-id-denuncia="${denuncia.id}" type="button" class="btn-desativar">Recusar</button>
+                            <button data-id-denuncia="${denuncia.id}" type="button" class="btn btn-primary btn-reativar">Aceitar</button>
                         </div>
                     </div>
                 `
     }).join('');
+}
+
+async function bindBtns(){
+    const btnAccept = document.querySelectorAll('.btn-reativar');
+    const btnRefuse = document.querySelectorAll('.btn-desativar');
+
+    btnAccept.forEach(btn => {
+        btn.addEventListener('click', acceptDenuncia);
+    })
+
+    btnRefuse.forEach(btn => {
+        btn.addEventListener('click', refuseDenuncia);
+    })
+}
+
+async function acceptDenuncia(e){
+    const idDenuncia = e.target.dataset.idDenuncia;
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
+    await apiClient.patch(`/api/admin/denuncias/aceitar/${idDenuncia}`);
+    await loadDenuncias();
+}
+
+async function refuseDenuncia(e){
+    const idDenuncia = e.target.dataset.idDenuncia;
+    const token = localStorage.getItem('adminToken');
+    const apiClient = new APIClient(token);
+    await apiClient.delete(`/api/admin/denuncias/${idDenuncia}`);    
+    await loadDenuncias();
 }

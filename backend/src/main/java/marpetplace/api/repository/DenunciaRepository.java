@@ -1,6 +1,7 @@
 package marpetplace.api.repository;
 
 import jakarta.transaction.Transactional;
+import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,4 +20,7 @@ public interface DenunciaRepository extends JpaRepository<Denuncia, UUID> {
     @Transactional
     @Query("DELETE FROM Denuncia d WHERE d.id <> :id AND d.anuncio.id = :anuncioId")
     void deleteAllExcept(@Param("id") UUID id, @Param("anuncioId") UUID anuncioId);
+
+    @Transactional
+    List<Denuncia> findByAnuncioIn(List<Anuncio> anuncios);
 }

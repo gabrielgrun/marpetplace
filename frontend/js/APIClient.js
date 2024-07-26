@@ -54,8 +54,12 @@ class APIClient {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      const data = await response.json();
-      return data;
+      if(response.json.length){
+        const data = await response.json();
+        return data;
+      }
+
+      return;
     } catch (error) {
       console.error('Houve um problema com a requisição:', error);
       throw error; // Re-lança o erro para ser tratado pelo chamador
@@ -81,8 +85,12 @@ class APIClient {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      const data = await response.json();
-      return data;
+      if(response.json.length){
+        const data = await response.json();
+        return data;
+      }
+
+      return;
     } catch (error) {
       console.error('Houve um problema com a requisição:', error);
       throw error; // Re-lança o erro para ser tratado pelo chamador
@@ -92,7 +100,7 @@ class APIClient {
   async delete(url) {
     try {
       const response = await fetch(url, {
-        method: 'PATCH',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.token}`
@@ -108,8 +116,12 @@ class APIClient {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      const data = await response.json();
-      return data;
+      if(response.json.length){
+        const data = await response.json();
+        return data;
+      }
+
+      return;
     } catch (error) {
       console.error('Houve um problema com a requisição:', error);
       throw error; // Re-lança o erro para ser tratado pelo chamador

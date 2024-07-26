@@ -67,7 +67,8 @@ public class DenunciaServiceImpl implements DenunciaService {
     @Override
     @Transactional
     public List<AnuncioWithDenunciasResponse> getAll() {
-        List<Denuncia> denuncias = denunciaRepository.findAll();
+        List<Anuncio> anuncios = anuncioRepository.findByStatusIn(List.of(AnuncioStatus.ATIVO, AnuncioStatus.OCULTADO));
+        List<Denuncia> denuncias = denunciaRepository.findByAnuncioIn(anuncios);
 
         Map<Anuncio, List<Denuncia>> denunciasGroupedByAnuncio = denuncias.stream()
                 .collect(Collectors.groupingBy(Denuncia::getAnuncio));
