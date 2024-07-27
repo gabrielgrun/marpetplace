@@ -1,4 +1,5 @@
-import APIClient from '../../js/APIClient.js';
+import APIClient from './APIClient.js';
+import Jwt from './Jwt.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -34,12 +35,63 @@ async function fillAtivosInfo(data){
                         <p>Porte: ${anuncio.porte}</p>
                         <p>${anuncio.sexo === 'M' ? 'Macho' : 'Fêmea'}</p>
                     </div>
-                    <i class="fa-solid fa-circle-exclamation danger"></i>
+                    <i class="fa-solid fa-circle-exclamation danger" data-anuncio-id="${anuncio.id}" data-bs-toggle="modal" data-bs-target="#denunciaModal"></i>
                 </div>
                 </a>`
     }).join('');
 
     containerAtivos.innerHTML = html;
+
+    bindDenunciaBtn();
+}
+
+function bindDenunciaBtn(){
+    document.querySelectorAll('.danger').forEach(icon => {
+        icon.addEventListener('click', function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            const anuncioId = event.target.getAttribute('data-anuncio-id');
+            document.getElementById('denunciaModal').setAttribute('data-anuncio-id', anuncioId);
+        });
+    });
+
+    bindSaveBtn();
+}
+
+async function bindSaveBtn(){
+    document.getElementById('btnSave').addEventListener('click', async function() {
+        const modalElement = document.getElementById('denunciaModal');
+        const anuncioId = modalElement.getAttribute('data-anuncio-id');
+        const inputMotivo = modalElement.querySelector('#inputMotivo');
+        const motivo = inputMotivo.value.trim();
+
+        if (!motivo) {
+            return inputMotivo.classList.add('is-invalid');
+        } else {
+            inputMotivo.classList.remove('is-invalid');
+        }
+        
+        await saveDenuncia(motivo, anuncioId);
+        
+        inputMotivo.value = '';
+        const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modalInstance.hide();
+    });
+}
+
+async function saveDenuncia(motivo, anuncioId){
+    const token = localStorage.getItem('userToken');
+    const apiClient = new APIClient(token);
+    const jwt = new Jwt();
+    const idDenunciante = jwt.parseJwt(token).id;
+    const json = {
+        motivo: motivo,
+        idAnuncio: anuncioId,
+        idDenunciante: idDenunciante
+    }
+
+    await apiClient.post('/api/usuarios/denuncias', json);
 }
 
 async function bindSelects(){

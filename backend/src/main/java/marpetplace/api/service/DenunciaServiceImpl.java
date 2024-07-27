@@ -37,10 +37,10 @@ public class DenunciaServiceImpl implements DenunciaService {
 
     @Override
     @Transactional
-    public Denuncia register(UUID idAnuncio, DenunciaRequest denunciaRequest) {
+    public Denuncia register(DenunciaRequest denunciaRequest) {
         Denuncia denuncia = new Denuncia(denunciaRequest);
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(denunciaRequest.idDenunciante());
-        Optional<Anuncio> anuncioOptional = anuncioRepository.findById(idAnuncio);
+        Optional<Anuncio> anuncioOptional = anuncioRepository.findById(denunciaRequest.idAnuncio());
 
         if(usuarioOptional.isEmpty() || anuncioOptional.isEmpty()){
             throw new RecordNotFoundException();

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DenunciaService {
-    Denuncia register(UUID idAnuncio, DenunciaRequest denunciaRequest);
+    Denuncia register(DenunciaRequest denunciaRequest);
     void delete(UUID id);
     List<AnuncioWithDenunciasResponse> getAll();
     List<DenunciaDetailedResponse> getByIdAnuncio(UUID idAnuncio);

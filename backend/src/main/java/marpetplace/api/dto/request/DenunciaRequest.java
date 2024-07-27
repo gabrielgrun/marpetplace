@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record DenunciaRequest(@NotBlank String motivo, @NotNull UUID idDenunciante) {
+public record DenunciaRequest(@NotBlank String motivo, @NotNull UUID idAnuncio, @NotNull UUID idDenunciante) {
 }

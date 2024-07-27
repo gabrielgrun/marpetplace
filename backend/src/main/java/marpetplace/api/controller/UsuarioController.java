@@ -134,10 +134,9 @@ public class UsuarioController {
     // DENUNCIA
 
     @PostMapping("/denuncias")
-    public ResponseEntity denunciaCreate(@PathVariable UUID idAnuncio,
-                                         @RequestBody @Valid DenunciaRequest denunciaRequest, UriComponentsBuilder uriBuilder){
-        Denuncia denuncia = denunciaService.register(idAnuncio, denunciaRequest);
-        var uri = uriBuilder.path("/{idAnuncio}/denuncias/{id}").buildAndExpand(idAnuncio, denuncia.getId()).toUri();
+    public ResponseEntity denunciaCreate(@RequestBody @Valid DenunciaRequest denunciaRequest, UriComponentsBuilder uriBuilder){
+        Denuncia denuncia = denunciaService.register(denunciaRequest);
+        var uri = uriBuilder.path("/denuncias/{id}").buildAndExpand(denuncia.getId()).toUri();
         return ResponseEntity.created(uri).body(new DenunciaDetailedResponse(denuncia));
     }
 
