@@ -126,6 +126,14 @@ body {
     margin-right: 5%;
 }
 
+.eye-hidden {
+    color: #6c757d;
+    font-size: 1.7rem;
+    position: absolute;
+    bottom: -10px;
+    right: -8px;
+}
+
 .danger {
     color: #eb143f;
     font-size: 1.7rem;

@@ -26,7 +26,7 @@
         </div>
     </header>
     <section class="height-main background-color-secondary container-fluid d-flex">
-        <section class="d-flex flex-column side-menu-cadastro">
+        <section id="side-menu-cadastro" class="d-flex flex-column side-menu-cadastro">
             <div class="div-btn-novo-anuncio">
                 <button class="btn-novo-anuncio">Novo anúncio</button>
             </div>
@@ -80,6 +80,7 @@
         <section class="container-fluid form-cadastro">
             <form class="d-flex">
                 <div class="container-fluid">
+                    <input id="inputId" type="hidden">
                     <div class="form-group">
                         <label for="inputNome">Nome</label>
                         <input required type="text" class="form-control" id="inputNome">

@@ -3,10 +3,98 @@ import APIClient from '../js/APIClient.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
+const bindedFunctions = {};
 
 function init() {
+    loadAnuncios();
     maskInput();
     bindBtnSave();
+    bindBtnHideOrShow();
+}
+
+async function loadAnuncios() {
+    const token = localStorage.getItem('userToken');
+    const apiClient = new APIClient(token);
+    const jwt = new Jwt();
+    const usuarioId = jwt.parseJwt(token).id;
+    const data = await apiClient.get(`/api/usuarios/${usuarioId}/anuncios`);
+    console.log(data);
+    await fillAnunciosInfo(data);
+}
+
+async function fillAnunciosInfo(data){
+    let sideMenuCadastro = document.querySelector('#side-menu-cadastro');
+    let html = `<div class="div-btn-novo-anuncio">
+                <button class="btn-novo-anuncio">Novo anúncio</button>
+            </div>`;
+    html += data.map(anuncio => {
+        bindedFunctions[anuncio.id] = focusAnuncio.bind(null, anuncio);
+        return `
+        <div id="${anuncio.id}" class="container-fluid d-flex animal-card">
+                    <div class="d-flex container-foto">
+                        <img class="foto minor-foto"
+                            src="data:image/jpeg;base64,${anuncio.foto}"
+                            alt="">
+                    </div>
+                    <div class="d-flex flex-column justify-content-center infos">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <h1 title="${anuncio.nome}">${anuncio.nome}</h1>
+                        </div>
+                        <p title="${normalizeRaca(anuncio.raca)}">Raça: ${normalizeRaca(anuncio.raca)}</p>
+                        <p>Porte: ${anuncio.porte}</p>
+                        <p>${anuncio.sexo === 'M' ? 'Macho' : 'Fêmea'}</p>
+                    </div>
+                    ${fillStatus(anuncio.anuncioStatus)}                    
+                </div>
+                `
+    }).join('');
+
+    sideMenuCadastro.innerHTML = html;
+
+    bindActiveAnuncio();
+}
+
+function bindActiveAnuncio(){
+    const cards = document.querySelectorAll('.animal-card');
+    cards.forEach(card => card.addEventListener('click', bindedFunctions[card.id]));
+}
+
+function focusAnuncio(data, event){
+    console.log('anuncio: ', data);
+    const cards = document.querySelectorAll('.animal-card');
+    cards.forEach(card => {
+        card.classList.remove('cadastro-active');
+    })
+
+    const anuncio = getAnimalCard(event.target);
+    anuncio.classList.add('cadastro-active');
+    fillInputs();
+}
+
+function getAnimalCard(element){
+    if(element.classList.contains('animal-card')){
+        return element;
+    }
+
+    return getAnimalCard(element.parentNode);
+}
+
+function fillInputs(data){
+    if(data.status = ocultado){
+        
+    }
+}
+
+function fillStatus(anuncio){
+    if(anuncio === 'DENUNCIADO'){
+        return `<i class="fa-solid fa-circle-exclamation danger"></i>`;
+    }
+    
+    if(anuncio === 'OCULTADO'){
+        return `<i class="fa-solid fa-eye-slash eye-hidden"></i>`;
+    }
+
+    return '';
 }
 
 function maskInput() {
@@ -44,6 +132,10 @@ function bindBtnSave(){
     document.querySelector('#btn-salvar').addEventListener('click', save);
 }
 
+function bindBtnHideOrShow(){
+    document.querySelector('#btn-ocultar').addEventListener('click', hideOrShow);
+}
+
 async function save(e) {
     e.preventDefault();
     const token = localStorage.getItem('userToken');
@@ -59,6 +151,15 @@ async function save(e) {
     } catch (error) {
         console.error('Erro ao enviar anuncio:', error);
     }
+}
+
+async function hideOrShow(e) {
+    e.preventDefault();
+    const token = localStorage.getItem('userToken');
+    const apiClient = new APIClient(token);
+    const id = document.querySelector('#inputId').value;
+
+    const data = await apiClient.patch(`/api/usuarios/anuncios/${id}`, formData);
 }
 
 function getFormData(){
@@ -93,4 +194,9 @@ function clearFields() {
     inputsAndSelects.forEach(input => {
         input.value = '';
     })
+}
+
+function normalizeRaca(raca){
+    raca = raca.replace(/_/g, '-');
+    return raca.charAt(0).toUpperCase() + raca.slice(1).toLowerCase();
 }
