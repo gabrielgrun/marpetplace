@@ -107,8 +107,8 @@ public class UsuarioController {
         return ResponseEntity.ok((anuncios));
     }
 
-    @PutMapping("/anuncios/{id}")
-    public ResponseEntity update(@PathVariable UUID id, @RequestBody @Valid AnuncioRequest anuncioRequest) {
+    @PutMapping(value = "/anuncios/{id}", consumes = {"multipart/form-data"})
+    public ResponseEntity update(@PathVariable UUID id, @ModelAttribute @Valid AnuncioRequest anuncioRequest) {
         Anuncio anuncio = anuncioService.update(id, anuncioRequest);
         return ResponseEntity.noContent().build();
     }

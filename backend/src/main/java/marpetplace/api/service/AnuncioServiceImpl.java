@@ -100,6 +100,9 @@ public class AnuncioServiceImpl implements AnuncioService {
         anuncioFromRequest.setStatus(anuncioFromDb.getStatus());
         anuncioFromRequest.setUsuario(anuncioFromDb.getUsuario());
         anuncioFromRequest.setDataCriacao(anuncioFromDb.getDataCriacao());
+        if(anuncioFromRequest.getFoto() == null){
+            anuncioFromRequest.setFoto(anuncioFromDb.getFoto());
+        }
         return anuncioRepository.save(anuncioFromRequest);
     }
 

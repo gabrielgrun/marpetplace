@@ -11,7 +11,7 @@ import java.util.UUID;
 public record AnuncioWithFotoResponse(UUID id, String nome, String foto, Raca raca, Porte porte, Sexo sexo) {
 
     public AnuncioWithFotoResponse(Anuncio anuncio){
-        this(anuncio.getId(), anuncio.getNome(), Base64.getEncoder().encodeToString(anuncio.getFoto()), anuncio.getRaca(),
+        this(anuncio.getId(), anuncio.getNome(), Base64.getEncoder().encodeToString(anuncio.getFoto() != null ? anuncio.getFoto() : "".getBytes()), anuncio.getRaca(),
                 anuncio.getPorte(), anuncio.getSexo());
     }
 }

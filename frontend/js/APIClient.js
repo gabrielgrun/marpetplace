@@ -62,7 +62,43 @@ class APIClient {
       return;
     } catch (error) {
       console.error('Houve um problema com a requisição:', error);
-      throw error; // Re-lança o erro para ser tratado pelo chamador
+      throw error;
+    }
+  }
+
+  async put(url, body) {
+    const isFormData = body instanceof FormData;
+    const headers = {
+      'Authorization': `Bearer ${this.token}`
+    };
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+      body = JSON.stringify(body);
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: headers,
+        body: body
+      });
+
+      if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error('Forbidden: Permissão negada ou token expirado.');
+        }
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+
+      if(response.json.length){
+        const data = await response.json();
+        return data;
+      }
+
+      return;
+    } catch (error) {
+      console.error('Houve um problema com a requisição:', error);
+      throw error;
     }
   }
 

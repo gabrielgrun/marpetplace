@@ -15,7 +15,7 @@ public record AnuncioDetailedResponse(UUID id, String nome, String descricao, St
         this(anuncio.getId(),
         anuncio.getNome(),
         anuncio.getDescricao(),
-        Base64.getEncoder().encodeToString(anuncio.getFoto()),
+        Base64.getEncoder().encodeToString(anuncio.getFoto() != null ? anuncio.getFoto() : "".getBytes()),
         anuncio.getPorte(),
         anuncio.getSexo(),
         anuncio.isCastrado(),

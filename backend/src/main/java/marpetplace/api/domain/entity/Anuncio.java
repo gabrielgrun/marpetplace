@@ -76,7 +76,11 @@ public class Anuncio {
         this.nome = anuncioRequest.nome();
         this.descricao = anuncioRequest.descricao();
         try {
-            this.foto = anuncioRequest.foto().getBytes();
+            if(anuncioRequest.foto() == null){
+                this.foto = null;
+            } else {
+                this.foto = anuncioRequest.foto().getBytes();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
