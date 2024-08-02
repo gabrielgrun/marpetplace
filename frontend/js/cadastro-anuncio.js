@@ -62,6 +62,10 @@ function bindActiveAnuncio() {
     cards.forEach(card => card.addEventListener('click', bindedFunctions[card.id]));
 }
 
+function bindBtnEnviar(){
+    document.querySelector('#btn-enviar-recurso').addEventListener('click', sendRecurso);
+}
+
 function removeAnuncioFocus() {
     const cards = document.querySelectorAll('.animal-card');
     cards.forEach(card => {
@@ -179,8 +183,50 @@ function buildCadastro(data) {
     bindBtnHideOrShow(hideOrShow.bind(null, data.anuncioStatus));
 }
 
-function buildCadastroDenunciado(data) {
-    document.querySelector('#form-cadastro').innerHTML = '';
+function buildCadastroDenunciado(anuncio) {
+    document.querySelector('#form-cadastro').innerHTML = `
+    <div class="form-recurso container d-flex flex-column">
+    <div class="recurso-info d-flex justify-content-center">
+        <div class="d-flex justify-content-center flex-column">
+            <h5>Aqui você pode pedir um recurso sobre o seu anúncio denunciado</h5>
+            <h7>Caso o recurso seja aceito, seu anúncio voltará a ser listado</h7>
+        </div>
+    </div>
+        <div class="card-recurso card-denuncia container-fluid d-flex flex-column">
+            <div class="form-group">
+                <label for="inputJustificativa">Recurso</label>
+                <textarea required class="form-control" id="inputJustificativa" rows="7"></textarea>
+            </div>
+            <div class="btn-group-recurso container-fluid d-flex justify-content-center">
+                <button id="btn-enviar-recurso" data-id-anuncio="${anuncio.id}" type="button" class="btn btn-primary btn-reativar">Enviar</button>
+            </div>
+        </div>
+    </div>    
+    `;
+
+    bindBtnEnviar();
+}
+
+async function sendRecurso(e){
+    const token = localStorage.getItem('userToken');
+    const apiClient = new APIClient(token);
+    const id = e.target.dataset.idAnuncio;
+    const justification = document.querySelector('#inputJustificativa');
+
+    if (!justification.value.trim()) {
+        return justification.classList.add('is-invalid');
+    } else {
+        justification.classList.remove('is-invalid');
+    }
+
+    const json = {
+        idAnuncio: id,
+        justificativa: justification.value
+    }
+
+    await apiClient.post('/api/usuarios/recursos', json);
+    buildDefaultScreen();
+    loadAnuncios();
 }
 
 function getAnimalCard(element) {
@@ -192,7 +238,6 @@ function getAnimalCard(element) {
 }
 
 function fillInputs(data) {
-    console.log(data);
     document.querySelector('#inputId').value = data.id;
     document.querySelector('#inputNome').value = data.nome;
     document.querySelector('#inputDescricao').value = data.descricao;
@@ -349,4 +394,91 @@ function clearFields() {
 function normalizeRaca(raca) {
     raca = raca.replace(/_/g, '-');
     return raca.charAt(0).toUpperCase() + raca.slice(1).toLowerCase();
+}
+
+function buildDefaultScreen(){
+    document.querySelector('#form-cadastro').innerHTML = `<form class="d-flex">
+                <div class="container-fluid">
+                    <input id="inputId" type="hidden">
+                    <div class="form-group">
+                        <label for="inputNome">Nome</label>
+                        <input required type="text" class="form-control" id="inputNome">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputContato">Contato</label>
+                        <input required type="tel" placeholder="(99) 99999-9999" class="form-control" id="inputContato" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato: (99) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectRaca">Raça</label>
+                        <select required id="selectRaca" class="form-select">
+                            <option value="" selected></option>
+                            <option value="VIRA_LATA">Vira-lata</option>
+                            <option value="LABRADOR">Labrador</option>
+                            <option value="BULDOGUE_FRANCÊS">Buldogue Francês</option>
+                            <option value="PASTOR_ALEMÃO">Pastor Alemão</option>
+                            <option value="GOLDEN_RETRIEVER">Golden Retriever</option>
+                            <option value="BULDOGUE_INGLÊS">Buldogue Inglês</option>
+                            <option value="POODLE">Poodle</option>
+                            <option value="BEAGLE">Beagle</option>
+                            <option value="ROTTWEILER">Rottweiler</option>
+                            <option value="YORKSHIRE_TERRIER">Yorkshire Terrier</option>
+                            <option value="PERSA">Persa</option>
+                            <option value="SIAMES">Siamês</option>
+                            <option value="MAINE_COON">Maine Coon</option>
+                            <option value="RAGDOLL">Ragdoll</option>
+                            <option value="BENGAL">Bengal</option>
+                            <option value="SPHYNX">Sphynx</option>
+                            <option value="BRITISH_SHORTHAIR">British Shorthair</option>
+                            <option value="SCOTTISH_FOLD">Scottish Fold</option>
+                            <option value="SIBERIANO">Siberiano</option>
+                            <option value="ABISSINIO">Abissínio</option>
+                            <option value="OUTRA">Outra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescricao">Descrição</label>
+                        <textarea required class="form-control" id="inputDescricao" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="form-group">
+                        <label class="form-check-label" for="inputFoto">Foto</label>
+                        <input type="file" class="form-control" id="inputFoto" aria-label="Upload" accept="image/*">
+                    </div>
+                    <div class="container-select-cadastro">
+                        <label class="form-check-label labelCaracteristicas">Características</label>
+                        <div class=" d-flex justify-content-between">
+                            <select required id="selectPorte" class="form-select" aria-label="Default select example">
+                                <option value="" selected>Porte</option>
+                                <option value="P">P</option>
+                                <option value="M">M</option>
+                                <option value="G">G</option>
+                            </select>
+                            <select required id="selectTipo" class="form-select" aria-label="Default select example">
+                                <option value="" selected>Tipo</option>
+                                <option value="GATO">Gato</option>
+                                <option value="CACHORRO">Cachorro</option>
+                            </select>
+                            <select required id="selectSexo" class="form-select" aria-label="Default select example">
+                                <option value="" selected>Sexo</option>
+                                <option value="M">Macho</option>
+                                <option value="F">Fêmea</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input" role="switch" id="checkboxCastrado">
+                        <label class="form-check-label" for="checkboxCastrado">Castrado</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input" role="switch" id="checkboxVacinado">
+                        <label class="form-check-label" for="checkboxVacinado">Vacinado</label>
+                    </div>
+                    <div class="d-flex justify-content-evenly btn-group">
+                        <button id="btn-ocultar" class="btn-cadastro">Ocultar anúncio</button>
+                        <button id="btn-salvar" class="btn-cadastro">Salvar</button>
+                    </div>
+                </div>
+            </form>`
 }

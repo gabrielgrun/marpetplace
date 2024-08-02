@@ -449,3 +449,24 @@ a{
     color: inherit;
     text-decoration: none;
 }
+
+.form-recurso{
+    margin-top: 15px;
+}
+
+.form-recurso .card-recurso{
+    width: 50%;
+}
+
+.form-recurso label{
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.form-recurso button{
+    min-width: 100px;
+}
+
+.form-recurso .recurso-info{
+    margin-bottom: 70px;
+}
