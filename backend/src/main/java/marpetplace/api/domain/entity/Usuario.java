@@ -2,10 +2,7 @@ package marpetplace.api.domain.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import marpetplace.api.domain.UsuarioStatus;
 import marpetplace.api.dto.request.UsuarioRequest;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +18,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Usuario implements UserDetails {
 
     @Id

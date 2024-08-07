@@ -365,6 +365,8 @@ function getFormData() {
     const tipo = document.querySelector('#selectTipo').value;
     const raca = document.querySelector('#selectRaca').value;
 
+    contato = contato.replace(/\D/g, '');
+
     formData.append('nome', nome);
     formData.append('descricao', descricao);
     if (foto) {
