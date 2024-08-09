@@ -5,7 +5,6 @@ import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Denuncia;
 import marpetplace.api.domain.entity.Usuario;
 import marpetplace.api.dto.request.AnuncioRequest;
-import marpetplace.api.dto.request.UsuarioRequest;
 import marpetplace.api.dto.response.AnuncioDetailedResponse;
 import marpetplace.api.dto.response.AnuncioDetailedWithDenunciasResponse;
 import marpetplace.api.dto.response.AnuncioWithFotoResponse;
@@ -20,6 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +60,9 @@ class AnuncioServiceImplTest {
         MockitoAnnotations.openMocks(this);
         idUsuario = UUID.randomUUID();
         idAnuncio = UUID.randomUUID();
+        MultipartFile foto = new MockMultipartFile("foto", "".getBytes());
         usuario = new Usuario(UUID.randomUUID(),"teste", "teste@teste.com", "123", UsuarioStatus.ATIVO);
-        anuncioRequest = new AnuncioRequest("teste", "teste", null, Porte.P, Sexo.M,
+        anuncioRequest = new AnuncioRequest("teste", "teste", foto, Porte.P, Sexo.M,
                 true, true, "55999024642", Tipo.CACHORRO, Raca.BEAGLE);
         anuncio = new Anuncio(anuncioRequest);
         anuncio.setId(idAnuncio);

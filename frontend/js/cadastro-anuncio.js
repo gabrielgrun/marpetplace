@@ -1,5 +1,6 @@
 import Jwt from '../js/Jwt.js';
 import APIClient from '../js/APIClient.js';
+import Utils from '../js/Utils.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -102,7 +103,7 @@ function buildCadastro(data) {
                     </div>
                     <div class="form-group">
                         <label for="inputContato">Contato</label>
-                        <input required type="tel" placeholder="(99) 99999-9999" class="form-control" id="inputContato">
+                        <input required type="tel" placeholder="(99) 99999-9999" pattern="\\(\\d{2}\\) \\d{5}-\\d{4}" class="form-control" id="inputContato">
                     </div>
                     <div class="form-group">
                         <label for="selectRaca">Raça</label>
@@ -311,6 +312,7 @@ async function save(e) {
     const formData = getFormData();
     const id = document.querySelector('#inputId').value;
     const form = document.querySelector('form');
+    const foto = document.querySelector('input[type="file"]');
 
     if (!form.checkValidity()) {
         form.reportValidity();
@@ -320,12 +322,20 @@ async function save(e) {
     if (id) {
         await apiClient.put(`/api/usuarios/anuncios/${id}`, formData);
         clearFields();
+        Utils.showAlert('Anúncio salvo com sucesso!', 'success');
         return loadAnuncios();
+    }
+
+    if (foto.files.length <= 0){
+        return foto.classList.add('is-invalid');
+    } else {
+        foto.classList.remove('is-invalid');
     }
 
     await apiClient.post(`/api/usuarios/${usuarioId}/anuncios`, formData);
 
     clearFields();
+    Utils.showAlert('Anúncio salvo com sucesso!', 'success');
     return loadAnuncios();
 }
 
@@ -344,11 +354,13 @@ async function hideOrShow(status, e) {
     if (status === 'OCULTADO') {
         await apiClient.patch(url + `/exibir`);
         clearFields();
+        Utils.showAlert('Anúncio visível novamente!', 'success');
         return loadAnuncios();
     }
 
     await apiClient.patch(url + '/ocultar');
     clearFields();
+    Utils.showAlert('Anúncio ocultado com sucesso!', 'success');
     return loadAnuncios();
 }
 
@@ -364,8 +376,6 @@ function getFormData() {
     const contato = document.querySelector('#inputContato').value;
     const tipo = document.querySelector('#selectTipo').value;
     const raca = document.querySelector('#selectRaca').value;
-
-    contato = contato.replace(/\D/g, '');
 
     formData.append('nome', nome);
     formData.append('descricao', descricao);
@@ -408,7 +418,7 @@ function buildDefaultScreen(){
                     </div>
                     <div class="form-group">
                         <label for="inputContato">Contato</label>
-                        <input required type="tel" placeholder="(99) 99999-9999" class="form-control" id="inputContato" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato: (99) 99999-9999">
+                        <input required type="tel" placeholder="(99) 99999-9999" class="form-control" id="inputContato" pattern="\\(\\d{2}\\) \\d{5}-\\d{4}" title="Formato: (99) 99999-9999">
                     </div>
                     <div class="form-group">
                         <label for="selectRaca">Raça</label>
