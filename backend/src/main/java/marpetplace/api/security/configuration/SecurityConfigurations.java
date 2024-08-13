@@ -44,6 +44,7 @@ public class SecurityConfigurations {
                             req.requestMatchers("/usuarios/login").permitAll();
                             req.requestMatchers("/admin/login").permitAll();
                             req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
+                            req.requestMatchers(HttpMethod.PATCH, "/usuarios/recuperar-senha").permitAll();
                             req.requestMatchers("/admin/**").hasRole("ADMIN");
                             req.requestMatchers("/usuarios/**").hasRole("USER");
                             req.requestMatchers("/common/**").hasAnyRole("ADMIN", "USER");

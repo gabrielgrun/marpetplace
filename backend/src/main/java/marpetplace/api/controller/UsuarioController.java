@@ -70,10 +70,9 @@ public class UsuarioController {
         return ResponseEntity.created(uri).body(new UsuarioDetailedResponse(usuario));
     }
 
-    @PatchMapping("/{id}/recuperar-senha")
-    public ResponseEntity<Void> recoverPassword(@PathVariable UUID id, @RequestParam(required = true) String email){
-        Usuario usuario = usuarioService.getById(id);
-        usuarioService.recoverPassword(usuario, email);
+    @PatchMapping("/recuperar-senha")
+    public ResponseEntity<Void> recoverPassword(@RequestParam(required = true) String email){
+        usuarioService.recoverPassword(email);
         return ResponseEntity.noContent().build();
     }
 

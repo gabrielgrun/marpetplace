@@ -90,13 +90,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public void recoverPassword(Usuario usuario, String email) {
-        Usuario usuarioFromDb = usuarioRepository.getByEmail(usuario.getEmail());
+    public void recoverPassword(String email) {
+        Usuario usuarioFromDb = usuarioRepository.getByEmail(email);
         if(usuarioFromDb == null){
             throw new RecordNotFoundException();
         }
 
-        String token = getEncryptedPassword(createToken(usuario));
+        String token = getEncryptedPassword(createToken(usuarioFromDb));
 
         emailSender.sendSimpleMessage(email, "Recuperação de Senha", token);
     }
