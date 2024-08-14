@@ -16,5 +16,5 @@ public interface UsuarioService {
     List<UsuarioDenunciaDto> findMostReportedUsuarios();
     List<UsuarioDetailedResponse> getInativos();
     void recoverPassword(String email);
-    void changePassword(Usuario usuario, String token, String password);
+    void changePassword(String token, String password);
 }

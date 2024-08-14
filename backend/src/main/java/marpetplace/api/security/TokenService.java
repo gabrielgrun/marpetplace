@@ -6,7 +6,6 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import marpetplace.api.domain.entity.Admin;
 import marpetplace.api.domain.entity.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +26,10 @@ public class TokenService {
 
     public String createToken(Admin admin) {
         return createToken(admin.getLogin(), admin.getId(), "ROLE_ADMIN");
+    }
+
+    public String createPasswordToken(String email, UUID id){
+        return createToken(email, id, "");
     }
 
     private String createToken(String subject, UUID id, String role) {

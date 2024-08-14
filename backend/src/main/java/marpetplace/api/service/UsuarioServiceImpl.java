@@ -10,6 +10,7 @@ import marpetplace.api.email.EmailService;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.UsuarioRepository;
+import marpetplace.api.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private EmailService emailSender;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Override
     @Transactional
-    public Usuario register(Usuario usuario){
+    public Usuario register(Usuario usuario) {
         Usuario usuarioFromDb = usuarioRepository.getByEmail(usuario.getEmail());
-        if(usuarioFromDb != null){
+        if (usuarioFromDb != null) {
             throw new EmailAlreadyRegisteredException();
         }
 
@@ -50,9 +54,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
-    public Usuario getById(UUID id){
+    public Usuario getById(UUID id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
-        if(usuario.isEmpty()){
+        if (usuario.isEmpty()) {
             throw new RecordNotFoundException();
         }
 
@@ -92,26 +96,26 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void recoverPassword(String email) {
         Usuario usuarioFromDb = usuarioRepository.getByEmail(email);
-        if(usuarioFromDb == null){
+        if (usuarioFromDb == null) {
             throw new RecordNotFoundException();
         }
 
-        String token = getEncryptedPassword(createToken(usuarioFromDb));
+        String token = tokenService.createPasswordToken(usuarioFromDb.getEmail(), usuarioFromDb.getId());
 
-        emailSender.sendSimpleMessage(email, "Recuperação de Senha", token);
+        emailSender.sendSimpleMessage(email, "Recuperação de Senha",
+                "Você pode trocar sua senha acessando o link abaixo: http://localhost:3000/alterar-senha.html?token=" + token);
     }
 
     @Override
     @Transactional
-    public void changePassword(Usuario usuario, String token, String password) {
-        boolean matches = passwordEncoder.matches(token, createToken(usuario));
-        if(matches){
-            String encryptedPassword = getEncryptedPassword(password);
-            usuario.setSenha(encryptedPassword);
-            usuarioRepository.save(usuario);
-            emailSender.sendSimpleMessage(usuario.getEmail(), "Sua senha foi alterada",
-                    "Senha alterada com sucesso!");
-        }
+    public void changePassword(String token, String password) {
+        String email = tokenService.getSubject(token);
+        Usuario usuario = usuarioRepository.getByEmail(email);
+        String encryptedPassword = getEncryptedPassword(password);
+        usuario.setSenha(encryptedPassword);
+        usuarioRepository.save(usuario);
+        emailSender.sendSimpleMessage(usuario.getEmail(), "Sua senha foi alterada",
+                "Senha alterada com sucesso!");
     }
 
     @Transactional
@@ -129,10 +133,6 @@ public class UsuarioServiceImpl implements UsuarioService {
                         + " pela administração.");
 
         return usuarioRepository.save(usuario);
-    }
-
-    private String createToken(Usuario usuario) {
-        return usuario.getId() + usuario.getEmail() + secretKey;
     }
 
     private String getEncryptedPassword(String password) {

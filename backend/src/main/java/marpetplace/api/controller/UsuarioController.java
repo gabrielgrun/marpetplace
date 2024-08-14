@@ -76,11 +76,10 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/alterar-senha")
-    public ResponseEntity<Void> changePassword(@PathVariable UUID id, @RequestParam(required = true) String token,
+    @PatchMapping("/alterar-senha")
+    public ResponseEntity<Void> changePassword(@RequestParam(required = true) String token,
                                                @RequestParam(required = true) String password){
-        Usuario usuario = usuarioService.getById(id);
-        usuarioService.changePassword(usuario, token, password);
+        usuarioService.changePassword(token, password);
         return ResponseEntity.noContent().build();
     }
 

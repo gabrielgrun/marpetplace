@@ -8,6 +8,7 @@ import marpetplace.api.email.EmailService;
 import marpetplace.api.exception.EmailAlreadyRegisteredException;
 import marpetplace.api.exception.RecordNotFoundException;
 import marpetplace.api.repository.UsuarioRepository;
+import marpetplace.api.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,6 +35,9 @@ class UsuarioServiceImplTest {
 
     @Mock
     private EmailService emailSender;
+
+    @Mock
+    private TokenService tokenService;
 
     @InjectMocks
     private UsuarioServiceImpl usuarioService;
@@ -159,36 +163,47 @@ class UsuarioServiceImplTest {
     }
 
     @Test
-    void testRecoverPasswordSuccess() {
+    public void testRecoverPasswordSuccess() {
+        String email = "user@example.com";
+        Usuario usuario = new Usuario();
+        usuario.setId(UUID.randomUUID());
+        usuario.setEmail(email);
+
         when(usuarioRepository.getByEmail(email)).thenReturn(usuario);
-        when(passwordEncoder.encode(anyString())).thenReturn("encryptedToken");
+        when(tokenService.createPasswordToken(usuario.getEmail(), usuario.getId())).thenReturn("generated-token");
 
-        usuarioService.recoverPassword(usuario, email);
+        usuarioService.recoverPassword(email);
 
-        verify(emailSender, times(1)).sendSimpleMessage(eq(email), anyString(), anyString());
+        verify(emailSender, times(1)).sendSimpleMessage(eq(email), eq("Recuperação de Senha"),
+                contains("http://localhost:3000/alterar-senha.html?token=generated-token"));
     }
 
     @Test
-    void testRecoverPasswordThrowsRecordNotFoundException() {
-        when(usuarioRepository.getByEmail(email)).thenReturn(null);
+    public void testRecoverPasswordThrowsRecordNotFoundException() {
+        when(usuarioRepository.getByEmail(anyString())).thenReturn(null);
 
-        assertThrows(RecordNotFoundException.class, () -> {
-            usuarioService.recoverPassword(usuario, email);
-        });
+        assertThrows(RecordNotFoundException.class, () -> usuarioService.recoverPassword("user@example.com"));
 
         verify(emailSender, never()).sendSimpleMessage(anyString(), anyString(), anyString());
     }
 
     @Test
-    void testChangePasswordSuccess() {
-        String token = "token123";
-        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
-        when(passwordEncoder.encode(anyString())).thenReturn("newEncryptedPassword");
+    public void testChangePasswordSuccess() {
+        String token = "valid-token";
+        String email = "user@example.com";
+        String newPassword = "new-password";
+        Usuario usuario = new Usuario();
+        usuario.setEmail(email);
 
-        usuarioService.changePassword(usuario, token, senha);
+        when(tokenService.getSubject(token)).thenReturn(email);
+        when(usuarioRepository.getByEmail(email)).thenReturn(usuario);
+        when(passwordEncoder.encode(newPassword)).thenReturn("encrypted-password");
+
+        usuarioService.changePassword(token, newPassword);
 
         verify(usuarioRepository, times(1)).save(usuario);
-        verify(emailSender, times(1)).sendSimpleMessage(eq(email), anyString(), anyString());
+        verify(emailSender, times(1)).sendSimpleMessage(eq(email), eq("Sua senha foi alterada"),
+                eq("Senha alterada com sucesso!"));
     }
 
     @Test
