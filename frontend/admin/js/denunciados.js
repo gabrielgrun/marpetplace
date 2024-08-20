@@ -1,4 +1,5 @@
 import APIClient from '../../js/APIClient.js';
+import Utils from '../../js/Utils.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -54,5 +55,6 @@ async function inactivateUser(e){
     const apiClient = new APIClient(token);
     const id = e.target.id;
     await apiClient.delete(`/api/admin/usuarios/${id}`);
+    Utils.showAlert('Usuário desativado!', 'success');
     loadDenunciados();
 }

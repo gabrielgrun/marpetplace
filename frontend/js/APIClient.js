@@ -15,9 +15,7 @@ class APIClient {
 
       if (!response.ok) {
         if (response.status === 403) {
-          // TODO: Verificar o que fazer com permissão (vou criar uma pagina?)
-          // Token expirado também cai aqui
-          throw new Error('a');
+          window.location.href = '/login.html';
         }
         throw new Error('Network response was not ok ' + response.statusText);
       }
@@ -25,8 +23,7 @@ class APIClient {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Houve um problema com a requisição:', error);
-      throw error; // Re-lança o erro para ser tratado pelo chamador
+      throw error;
     }
   }
 

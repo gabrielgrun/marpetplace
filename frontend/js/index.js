@@ -1,5 +1,6 @@
 import APIClient from './APIClient.js';
 import Jwt from './Jwt.js';
+import Utils from '../js/Utils.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -92,6 +93,7 @@ async function saveDenuncia(motivo, anuncioId){
     }
 
     await apiClient.post('/api/usuarios/denuncias', json);
+    Utils.showAlert('Denúncia enviada com sucesso!', 'success');
 }
 
 async function bindSelects(){

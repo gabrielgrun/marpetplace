@@ -226,6 +226,7 @@ async function sendRecurso(e){
     }
 
     await apiClient.post('/api/usuarios/recursos', json);
+    Utils.showAlert('Recurso enviado!', 'success');
     buildDefaultScreen();
     loadAnuncios();
 }

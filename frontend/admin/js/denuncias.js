@@ -1,4 +1,5 @@
 import APIClient from '../../js/APIClient.js';
+import Utils from '../../js/Utils.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -69,6 +70,7 @@ async function acceptDenuncia(e){
     const token = localStorage.getItem('adminToken');
     const apiClient = new APIClient(token);
     await apiClient.patch(`/api/admin/denuncias/aceitar/${idDenuncia}`);
+    Utils.showAlert('Denúncia aceita!', 'success');
     await loadDenuncias();
 }
 
@@ -76,6 +78,7 @@ async function refuseDenuncia(e){
     const idDenuncia = e.target.dataset.idDenuncia;
     const token = localStorage.getItem('adminToken');
     const apiClient = new APIClient(token);
-    await apiClient.delete(`/api/admin/denuncias/${idDenuncia}`);    
+    await apiClient.delete(`/api/admin/denuncias/${idDenuncia}`);
+    Utils.showAlert('Denúncia recusada!', 'success');
     await loadDenuncias();
 }

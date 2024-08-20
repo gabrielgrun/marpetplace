@@ -1,4 +1,5 @@
 import APIClient from '../../js/APIClient.js';
+import Utils from '../../js/Utils.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -53,5 +54,6 @@ async function reactivateUser(e) {
     const apiClient = new APIClient(token);
     const id = e.target.id;
     await apiClient.patch(`/api/admin/usuarios/${id}/ativar`);
+    Utils.showAlert('Usuário reativado!', 'success');
     loadDesativados();
 }
