@@ -127,9 +127,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Usuario usuario = usuarioOptional.get();
         usuario.setStatus(status);
+        String statusMessage = usuario.getStatus() == UsuarioStatus.ATIVO ? "ativado" : "inativado";
         emailSender.sendSimpleMessage(usuario.getEmail(),
-                "Seu usuário foi " + usuario.getStatus().name().toLowerCase() + "!",
-                "O seu usuário foi " + usuario.getStatus().name().toLowerCase()
+                "Seu usuário foi " + statusMessage + "!",
+                "O seu usuário foi " + statusMessage
                         + " pela administração.");
 
         return usuarioRepository.save(usuario);
