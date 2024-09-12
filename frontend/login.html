@@ -4,54 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marpetplace</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #FFF8DC;
-            font-family: 'Inter', sans-serif;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .login-container h2 {
-            margin-bottom: 20px;
-            color: #FF9B23;
-            text-align: center;
-        }
-        .btn-primary {
-            background-color: #FF9B23;
-            border-color: #FF9B23;
-        }
-        .btn-primary:hover {
-            background-color: #e88c1f;
-            border-color: #e88c1f;
-        }
-    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="login.css" />
+    <link rel="icon" href="./favicon.png">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <div id="alertContainer" class="alert-container"></div>
-        <form>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Digite seu email">
+    <div id="login">
+        <div id="sidebar">
+            <div class="title">Bem-vindo ao Marpetplace!</div>
+            <div class="text">A melhor opção para adoção de pets em Horizontina e região!</div>
+            <img class="img" src="images/cao.png" />
+        </div>
+        <div id="content">
+            <div class="login">
+                <div class="form">
+                    <div class="row">
+                        <div class="title">Fazer login</div>
+                    </div>
+                    <div class="row">
+                        <input class="form-control" type="email" id="email" placeholder="E-mail" />
+                    </div>
+                    <div class="row">
+                        <input class="form-control" type="password" id="password" placeholder="Senha" />
+                    </div>
+                    <div class="row">
+                        <button id="btnEntrar" class="btn-login">Login</button>
+                    </div>
+                    <div id="alertContainer" class="alert-container"></div>
+                    <div class="row">
+                        <div class="text"><a href="esqueci-minha-senha.html">Esqueci minha senha</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="text">Ainda não é cadastrado? <a href="#">Cadastre-se aqui!</a></div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Senha</label>
-                <input type="password" class="form-control" id="password" placeholder="Digite sua senha">
-            </div>
-            <button type="submit" id="btnEntrar" class="btn btn-primary btn-block">Entrar</button>
-        </form>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script type="module" src="js/login.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
