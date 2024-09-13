@@ -15,7 +15,11 @@ class APIClient {
 
       if (!response.ok) {
         if (response.status === 403) {
-          window.location.href = '/login.html';
+          if(window.location.href.includes('admin') && !window.location.href.includes('login')){
+            window.location.href = '/admin/login.html';
+          } else {
+            window.location.href = '/login.html';
+          }
         }
         throw new Error('Network response was not ok ' + response.statusText);
       }

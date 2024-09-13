@@ -1,0 +1,118 @@
+* {
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+#login {
+    display: flex;
+    flex-direction: row;
+    flex: 1 auto;
+    height: 100vh;
+}
+
+#sidebar {
+    background-color: #ffe3b3;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+#login .title {
+    font-size: 42px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30%;
+}
+
+#login .text {
+    text-align: center;
+}
+
+#sidebar .img {
+    height: 60%;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+
+#content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.header {
+    display: flex;
+    padding: 10px;
+    justify-content: end;
+    align-items: center;
+    gap: 25px;
+}
+
+#content a {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}
+
+#content button {
+    background-color: #ff9a23;
+    font-weight: bold;
+    border: 1px solid #955a15;
+    padding: 12px 30px;
+    border-radius: 3px;
+    color: white;
+}
+
+.login {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.form {
+    width: 80%;
+    max-width: 500px;
+}
+
+.form .row {
+    display: block;
+    padding: 10px 0;
+}
+
+#login input[type="email"],
+#login input[type="password"] {
+    width: 100%;
+    padding: 18px;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.form .title {
+    text-align: left !important;
+    margin-bottom: 12px;
+    margin-top: 0 !important;
+}
+
+.form button {
+    width: 100%;
+    margin: 18px 0 30px;
+}
+
+.btn-login {
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.btn-login:hover {
+    background-color: #e6871f !important;
+}

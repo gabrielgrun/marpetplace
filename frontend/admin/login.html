@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marpetplace</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="login.css" />
+    <link rel="icon" href="../favicon.png">
+</head>
+<body>
+    <div id="login">
+        <div id="sidebar">
+            <div class="title">Bem-vindo ao Marpetplace!</div>
+            <div class="text">A melhor opção para adoção de pets em Horizontina e região!</div>
+            <img class="img" src="../images/gato.png" />
+        </div>
+        <div id="content">
+            <div class="login">
+                <div class="form">
+                    <div class="row">
+                        <div class="title">Área do Administrador</div>
+                    </div>
+                    <div class="row">
+                        <div class="title">Fazer login</div>
+                    </div>
+                    <div class="row">
+                        <input class="form-control" type="email" id="email" placeholder="E-mail" />
+                    </div>
+                    <div class="row">
+                        <input class="form-control" type="password" id="password" placeholder="Senha" />
+                    </div>
+                    <div class="row">
+                        <button id="btnEntrar" class="btn-login">Login</button>
+                    </div>
+                    <div id="alertContainer" class="alert-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+</body>
+</html>
