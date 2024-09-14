@@ -1,51 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esqueci Minha Senha</title>
+    <title>Esqueci minha senha</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="./favicon.png">
     <style>
-        body {
-            background-color: #FFF8DC;
-            font-family: 'Inter', sans-serif;
+        * {
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
         }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .reset-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 500px;
+            width: 500px;
         }
+
         .reset-container h2 {
             margin-bottom: 20px;
-            color: #FF9B23;
             text-align: center;
+            font-weight: bold;
         }
+
         .btn-primary {
             background-color: #FF9B23;
             border-color: #FF9B23;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 3px;
+            color: white;
+            transition: all 0.2s;
         }
+
         .btn-primary:hover {
             background-color: #e88c1f;
             border-color: #e88c1f;
         }
+
+        .btn-primary:focus{
+            background-color: #FF9B23;
+            border-color: #FF9B23;
+            box-shadow: 0 0 0 .2rem rgba(0, 0, 0, 0);
+        }
+
         .alert-container {
             margin-top: 20px;
         }
     </style>
 </head>
+
 <body>
     <div class="reset-container">
-        <h2>Esqueci Minha Senha</h2>
+        <h2>Recuperar senha</h2>
         <div id="alertContainer" class="alert-container"></div>
         <form id="resetForm">
             <div class="form-group">
-                <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Digite seu email" required>
             </div>
-            <button id="btnEnviarEmail" type="submit" class="btn btn-primary btn-block">Enviar E-mail de Recuperação</button>
+            <button id="btnEnviarEmail" type="submit" class="btn btn-primary btn-block">Enviar e-mail de
+                recuperação</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -53,4 +85,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="js/recuperar-senha.js"></script>
 </body>
+
 </html>
