@@ -18,26 +18,28 @@ async function loadDesativados() {
 async function fillDesativadosInfo(data) {
     const tableAdmin = document.querySelector(".table-admin");
     tableAdmin.innerHTML = `
-    <div class="d-flex align-items-center justify-content-between">
-                <h2>Nome</h2>
-                <h2>E-mail</h2>
-                <h2></h2>
+    <table>
+    <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th></th>
             </div>
+    </tr>        
             ${fillData(data)}
     `
-
 }
 
 function fillData(data) {
     let html = '';
     for (let i = 0; i < data.length; i++) {
         const row = data[i];
-        html += `<div class="d-flex align-items-center justify-content-between">
-                <p>${row.nome}</p>
-                <p>${row.email}</p>
-                <button id='${row.id}' type="button" class="btn btn-primary btn-reativar">Reativar</button>    
-         </div>`
+        html += `<tr>
+                <td>${row.nome}</td>
+                <td>${row.email}</td>
+                <td class="d-flex justify-content-end"><button id='${row.id}' type="button" class="btn btn-primary btn-reativar">Reativar</button></td>
+         </tr>`
     }
+    html += `</table>`;
     return html;
 }
 

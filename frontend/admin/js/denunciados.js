@@ -18,12 +18,13 @@ async function loadDenunciados(){
 async function fillDenunciadosInfo(data){
     const tableAdmin = document.querySelector(".table-admin");
     tableAdmin.innerHTML = `
-    <div class="d-flex align-items-center justify-content-between">
-                <h2>Nome</h2>
-                <h2>E-mail</h2>
-                <h2>Qt. denúncias</h2>
-                <h2></h2>
-            </div>
+    <table>
+    <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Qt. denúncias</th>
+                <th></th>
+    </tr>        
             ${fillData(data)}
     `
 }
@@ -32,13 +33,15 @@ function fillData(data){
     let html = '';
     for (let i = 0; i < data.length; i++) {
         const row = data[i];
-        html += `<div class="d-flex align-items-center justify-content-between">
-                <p>${row.nome}</p>
-                <p>${row.email}</p>
-                <p>${row.numeroDenuncias}</p>
-                <button id='${row.id}' type="button" class="btn-desativar">Desativar</button>    
-            </div>`
+            html += `<tr>
+            <td>${row.nome}</td>
+            <td>${row.email}</td>
+            <td>${row.numeroDenuncias}</td>
+            <td><button id='${row.id}' type="button" class="btn-desativar">Desativar</button> </td>   
+            </tr>
+        `
     }
+    html += `</table>`;
     return html;
 }
 

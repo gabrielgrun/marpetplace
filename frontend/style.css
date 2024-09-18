@@ -219,23 +219,24 @@ body {
     margin-top: 50px;
 }
 
-.table-admin div{
-    border-bottom: 1px black solid;
+.table-admin table{
+    width: 100%;
 }
 
-.table-admin h2{
+.table-admin th{
     font-size: 1.7rem;
+    font-weight: normal;
+    width: 33%;
 }
 
-.table-admin p{
-    margin: 0;
+.table-admin th, .table-admin td {
+    border-bottom: 1px solid black;
 }
 
 .btn-desativar{
     font-family: 'Inter';
     background-color: #FF7223;
     color: #FFFFFF;
-    width: 10%;
     outline: none;
     border: none;
     border-radius: 3px;
@@ -254,7 +255,6 @@ body {
 .btn-reativar{
     font-family: 'Inter';
     margin: 5px 0 5px 0;
-    width: 10%;
     font-size: .9rem;
     border-radius: 3px;
 }
