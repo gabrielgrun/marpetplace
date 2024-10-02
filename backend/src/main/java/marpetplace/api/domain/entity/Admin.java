@@ -2,7 +2,9 @@ package marpetplace.api.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import marpetplace.api.dto.request.AdminRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Admin implements UserDetails {
 
     @Id
@@ -26,6 +29,11 @@ public class Admin implements UserDetails {
 
     @Column(name = "senha", length = 100)
     private String senha;
+
+    public Admin(AdminRequest adminRequest) {
+        this.login = adminRequest.email();
+        this.senha = adminRequest.senha();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

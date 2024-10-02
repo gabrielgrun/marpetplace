@@ -11,18 +11,16 @@ function bindBtnCadastro() {
 async function register(e){
     e.preventDefault();
 
-    const nome = document.querySelector('#inputNome').value;
     const email = document.querySelector('#inputEmail').value;
     const senha = document.querySelector('#inputPassword').value;
 
     try {
-        const response = await fetch(`/api/usuarios`, {
+        const response = await fetch(`/api/admin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                nome: nome,
                 email: email,
                 senha: senha
             })
@@ -44,18 +42,17 @@ async function register(e){
         const alertContainer = document.getElementById('alertContainer');
         alertContainer.innerHTML = `
                     <div class="alert alert-success" role="alert">
-                        Usuário criado com sucesso!
+                        Administrador criado com sucesso!
                     </div>
                 `;
         
-        document.querySelector('#inputNome').value = '';
         document.querySelector('#inputEmail').value = '';
         document.querySelector('#inputPassword').value = '';        
     } catch (error) {
         const alertContainer = document.getElementById('alertContainer');
         alertContainer.innerHTML = `
                     <div class="alert alert-danger" role="alert">
-                        Erro ao cadastrar usuário. Por favor, tente novamente.
+                        Erro ao cadastrar administrador. Por favor, tente novamente.
                     </div>
                 `;
     }

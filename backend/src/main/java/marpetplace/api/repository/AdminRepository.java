@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public interface AdminRepository extends JpaRepository<Admin, UUID> {
 
+    Admin getByLogin(String login);
+
     //Authentication
     Admin findByLogin(String login);
 }

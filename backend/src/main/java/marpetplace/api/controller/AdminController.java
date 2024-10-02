@@ -7,13 +7,12 @@ import marpetplace.api.domain.Tipo;
 import marpetplace.api.domain.entity.Admin;
 import marpetplace.api.domain.entity.Anuncio;
 import marpetplace.api.domain.entity.Usuario;
+import marpetplace.api.dto.request.AdminRequest;
 import marpetplace.api.dto.request.LoginRequest;
+import marpetplace.api.dto.request.UsuarioRequest;
 import marpetplace.api.dto.response.*;
 import marpetplace.api.security.TokenService;
-import marpetplace.api.service.AnuncioService;
-import marpetplace.api.service.DenunciaService;
-import marpetplace.api.service.RecursoService;
-import marpetplace.api.service.UsuarioService;
+import marpetplace.api.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +35,9 @@ public class AdminController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    AdminService adminService;
 
     @Autowired
     UsuarioService usuarioService;
@@ -55,6 +58,16 @@ public class AdminController {
         var tokenJwt = tokenService.createToken((Admin) authentication.getPrincipal());
 
         return ResponseEntity.ok(new JwtDataResponse(tokenJwt));
+    }
+
+    @PostMapping
+    public ResponseEntity create(@RequestBody @Valid AdminRequest adminRequest, UriComponentsBuilder uriBuilder){
+        Admin admin = new Admin(adminRequest);
+        admin = adminService.register(admin);
+
+        var uri = uriBuilder.path("/admin/{id}").buildAndExpand(admin.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new AdminDetailedResponse(admin));
     }
 
     //USUARIO

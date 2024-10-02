@@ -9,14 +9,14 @@
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="cadastro-usuario.css">
+    <link rel="stylesheet" href="../cadastro-usuario.css">
     <link rel="icon" href="./favicon.png">
 </head>
 
 <body>
     <header>
         <div class="container-fluid d-flex justify-content-between align-items-center background-color-primary header">
-            <a href="/login.html">
+            <a href="/admin/login.html">
                 <div id="home" class="d-flex align-items-center pointer" title="Home">
                     <i class="fa-solid fa-shield-dog header-icon"></i>
                     <h1>MarPetplace</h1>
@@ -25,12 +25,8 @@
         </div>
     </header>
     <div class="registration-container">
-        <h2>Cadastro de Usuário</h2>
+        <h2>Cadastro de Administrador</h2>
         <form id="registrationForm">
-            <div class="form-group">
-                <label for="inputNome">Nome</label>
-                <input required type="text" class="form-control" id="inputNome">
-            </div>
             <div class="form-group">
                 <label for="inputEmail">E-mail</label>
                 <input required type="email" class="form-control" id="inputEmail">
@@ -43,7 +39,7 @@
             <button type="button" id="btnCadastro" class="btn btn-primary">Cadastrar</button>
         </form>
     </div>
-    <script src="js/cadastro-usuario.js"></script>
+    <script src="js/cadastro-admin.js"></script>
 </body>
 
 </html>
