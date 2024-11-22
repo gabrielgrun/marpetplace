@@ -79,6 +79,7 @@ body {
 .animal-card .foto {
     width: 100%;
     margin-right: 20px;
+    height: 122px;
 }
 
 .animal-card .infos h1 {
