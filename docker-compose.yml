@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: marpetplace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - marpetplace
+
+  api:
+    build: ./backend
+    container_name: api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/marpetplace
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - marpetplace
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./frontend/default.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend/nginx-global.conf:/etc/nginx/nginx.conf
+    networks:
+      - marpetplace
+
+networks:
+  marpetplace:
+    driver: bridge
+
+volumes:
+  postgres_data:
