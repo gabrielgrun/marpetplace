@@ -14,7 +14,7 @@ services:
       - marpetplace
 
   api:
-    build: ./backend
+    image: gabrielgrun/marpetplace-backend:latest
     container_name: api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/marpetplace
@@ -28,8 +28,7 @@ services:
       - marpetplace
 
   frontend:
-    build:
-      context: ./frontend
+    image: gabrielgrun/marpetplace-frontend:latest
     container_name: frontend
     ports:
       - "3000:80"
