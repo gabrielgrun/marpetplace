@@ -49,6 +49,10 @@ Execute o comando abaixo para iniciar os serviços do Docker:
 
 `docker-compose up --build`
 
+O sistema estará acessível em:
+
+`localhost:3000`
+
 ---
 
 ## **English version**
@@ -93,3 +97,7 @@ Once the environment variables are configured, you can run the project with Dock
 Run the following command to start the Docker services:
 
 `docker-compose up --build`
+
+The system will be accessible at:
+
+`localhost:3000`
